@@ -8,8 +8,35 @@
   <button id="loginBtn">Login dengan Google</button>
 
   <script type="module">
-    import { loginWithGoogle } from "./js/firebase.js";
-    document.getElementById("loginBtn").addEventListener("click", loginWithGoogle);
-  </script>
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
+    authDomain: "workshop-penilaian.firebaseapp.com",
+    projectId: "workshop-penilaian",
+    storageBucket: "workshop-penilaian.firebasestorage.app",
+    messagingSenderId: "913053975087",
+    appId: "1:913053975087:web:c8d89b4f8ea5316bea3cda",
+    measurementId: "G-TWFS28040R"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  const loginBtn = document.getElementById("loginBtn");
+
+  loginBtn.addEventListener("click", () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // ✅ Login sukses, arahkan ke halaman video
+        window.location.href = "dashboard.html";
+      })
+      .catch((error) => {
+        alert("Login gagal: " + error.message);
+      });
+  });
+</script>
 </body>
 </html>
