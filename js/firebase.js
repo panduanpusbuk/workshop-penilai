@@ -23,10 +23,16 @@ export function loginWithGoogle() {
 }
 
 // Fungsi logout
-export function logoutUser() {
-  signOut(auth).then(() => window.location.href = "index.html");
+export function logout() {
+  const auth = getAuth();
+  signOut(auth)
+    .then(() => {
+      window.location.href = "index.html"; // atau halaman login
+    })
+    .catch((error) => {
+      console.error("Logout gagal:", error);
+    });
 }
-
 // Fungsi untuk cek login
 export function checkAuth(onSuccess) {
   onAuthStateChanged(auth, user => {

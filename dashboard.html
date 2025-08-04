@@ -12,6 +12,8 @@
   </video>
 
   <script type="module">
+  import { logout } from "./js/firebase.js";
+  document.getElementById("logoutBtn").addEventListener("click", logout);
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
