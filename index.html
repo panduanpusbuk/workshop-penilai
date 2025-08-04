@@ -8,35 +8,49 @@
   <button id="loginBtn">Login dengan Google</button>
 
   <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
-    authDomain: "workshop-penilaian.firebaseapp.com",
-    projectId: "workshop-penilaian",
-    storageBucket: "workshop-penilaian.firebasestorage.app",
-    messagingSenderId: "913053975087",
-    appId: "1:913053975087:web:c8d89b4f8ea5316bea3cda",
-    measurementId: "G-TWFS28040R"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
+      authDomain: "workshop-penilaian.firebaseapp.com",
+      projectId: "workshop-penilaian",
+      storageBucket: "workshop-penilaian.firebasestorage.app",
+      messagingSenderId: "913053975087",
+      appId: "1:913053975087:web:c8d89b4f8ea5316bea3cda",
+      measurementId: "G-TWFS28040R"
+    };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
 
-  const loginBtn = document.getElementById("loginBtn");
+    const allowedEmails = [
+      "alfianfaizmi@gmail.com",
+      "email2@example.com"
+      // Tambahkan email yang diizinkan di sini
+    ];
 
-  loginBtn.addEventListener("click", () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // ✅ Login sukses, arahkan ke halaman video
-        window.location.href = "dashboard.html";
-      })
-      .catch((error) => {
-        alert("Login gagal: " + error.message);
-      });
-  });
-</script>
+    const loginBtn = document.getElementById("loginBtn");
+
+    loginBtn.addEventListener("click", () => {
+      signInWithPopup(auth, provider)
+        .catch((error) => {
+          alert("Login gagal: " + error.message);
+        });
+    });
+
+    // 🔐 Cek email saat login berhasil
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        if (allowedEmails.includes(user.email)) {
+          window.location.href = "dashboard.html";
+        } else {
+          alert("Akses ditolak. Email Anda tidak terdaftar.");
+          signOut(auth); // Logout otomatis jika tidak diizinkan
+        }
+      }
+    });
+  </script>
 </body>
 </html>
