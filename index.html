@@ -4,21 +4,12 @@
   <title>Login Workshop</title>
 </head>
 <body>
-  <h2>Login Peserta Workshop</h2>
-  <input id="email" type="email" placeholder="Email" />
-  <input id="password" type="password" placeholder="Password" />
-  <button onclick="login()">Login</button>
+  <h2>Login untuk Mengakses Video Workshop</h2>
+  <button id="loginBtn">Login dengan Google</button>
 
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-  <script src="js/firebase-config.js"></script>
-  <script src="js/auth.js"></script>
-  <script>
-    function login() {
-      const email = document.getElementById("email").value;
-      const pass = document.getElementById("password").value;
-      loginUser(email, pass);
-    }
+  <script type="module">
+    import { loginWithGoogle } from "./firebase.js";
+    document.getElementById("loginBtn").addEventListener("click", loginWithGoogle);
   </script>
 </body>
 </html>

@@ -1,11 +1,8 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+// firebase.js
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
   authDomain: "workshop-penilaian.firebaseapp.com",
@@ -16,6 +13,27 @@ const firebaseConfig = {
   measurementId: "G-TWFS28040R"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const auth = getAuth(app);
+
+// Fungsi login dengan Google
+export function loginWithGoogle() {
+  const provider = new GoogleAuthProvider();
+  signInWithPopup(auth, provider).catch(err => alert("Login gagal: " + err.message));
+}
+
+// Fungsi logout
+export function logoutUser() {
+  signOut(auth).then(() => window.location.href = "index.html");
+}
+
+// Fungsi untuk cek login
+export function checkAuth(onSuccess) {
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      onSuccess(user);
+    } else {
+      window.location.href = "index.html";
+    }
+  });
+}
