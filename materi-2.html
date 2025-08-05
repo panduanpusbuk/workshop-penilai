@@ -62,7 +62,7 @@
         alert("Silakan login terlebih dahulu.");
         window.location.href = "index.html";
       } else {
-        const materi1Done = localStorage.getItem('materi1_selesai');
+        const materi1Done = localStorage.getItem('materi_selesai');
         if (materi1Done !== 'true') {
           alert("Anda harus menyelesaikan Materi 1 terlebih dahulu.");
           window.location.href = "materi-1.html";
@@ -70,17 +70,11 @@
       }
     });
 
-    // Simpan progress jika video ini selesai
-    const video = document.getElementById('video2');
-    video.addEventListener('ended', () => {
-      localStorage.setItem('materi2_selesai', 'true');
-      alert("Materi 2 selesai!");
-
     // Deteksi video selesai
     const video = document.getElementById('video2');
     video.addEventListener('ended', () => {
-      localStorage.setItem('materi1_selesai', 'true');
-      alert("Materi 1 selesai! Anda bisa lanjut ke materi 2.");
+      localStorage.setItem('materi2_selesai', 'true');
+      alert("Materi 2 selesai! Anda bisa lanjut ke materi 3.");
 
     });
   </script>
