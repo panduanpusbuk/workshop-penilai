@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Materi 4 - Legalitas, Norma, dan Etika dalam Penulisan/Penyajian BTP</title>
+</head>
+<body>
+  <h2>Materi 4: Legalitas, Norma, dan Etika dalam Penulisan/Penyajian BTP</h2>
+  <p>Silakan tonton video di bawah ini.</p>
+
+  <!-- Video -->
+  <video id="video4" width="640" controls>
+    <source src="###" type="video/mp4" />
+    Browser Anda tidak mendukung tag video.
+  </video>
+
+   <!-- JavaScript ANTI-SKIP -->
+<script>
+    const video1 = document.getElementById('video4');
+
+    // Mencegah user seek/maju-mundur di video4
+    let lastTime = 0;
+    video4.addEventListener('timeupdate', function () {
+      if (Math.abs(video4.currentTime - lastTime) > 0.3) {
+        video4.currentTime = lastTime;
+      } else {
+        lastTime = video4.currentTime;
+      }
+    });
+
+    // Nonaktifkan tombol keyboard skip (opsional)
+    window.addEventListener('keydown', function (e) {
+      if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) {
+        e.preventDefault();
+      }
+    });
+</script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    // Konfigurasi Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
+      authDomain: "workshop-penilaian.firebaseapp.com",
+      projectId: "workshop-penilaian",
+      storageBucket: "workshop-penilaian.firebasestorage.app",
+      messagingSenderId: "913053975087",
+      appId: "1:913053975087:web:c8d89b4f8ea5316bea3cda",
+      measurementId: "G-TWFS28040R"
+    };
+
+    // Inisialisasi Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Cek login & progress materi 3
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        alert("Silakan login terlebih dahulu.");
+        window.location.href = "index.html";
+      } else {
+        const materi3Done = localStorage.getItem('materi3_selesai');
+        if (materi3Done !== 'true') {
+          alert("Anda harus menyelesaikan Materi 3 terlebih dahulu.");
+          window.location.href = "materi-3.html";
+        }
+      }
+    });
+
+    // Deteksi video selesai
+    const video = document.getElementById('video4');
+    video.addEventListener('ended', () => {
+      localStorage.setItem('materi4_selesai', 'true');
+      alert("Materi 4 selesai! Anda bisa lanjut ke materi 5.");
+
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Materi 5 – Instrumen Penilaian BTP</title>
+</head>
+<body>
+  <h2>Materi 5: Instrumen Penilaian BTP</h2>
+  <p>Silakan tonton video di bawah ini.</p>
+
+  <!-- Video -->
+  <video id="video5" width="640" controls>
+    <source src="###" type="video/mp4" />
+    Browser Anda tidak mendukung tag video.
+  </video>
+
+   <!-- JavaScript ANTI-SKIP -->
+<script>
+    const video5 = document.getElementById('video5');
+
+    // Mencegah user seek/maju-mundur di video2
+    let lastTime = 0;
+    video5.addEventListener('timeupdate', function () {
+      if (Math.abs(video5.currentTime - lastTime) > 0.3) {
+        video5.currentTime = lastTime;
+      } else {
+        lastTime = video5.currentTime;
+      }
+    });
+
+    // Nonaktifkan tombol keyboard skip (opsional)
+    window.addEventListener('keydown', function (e) {
+      if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) {
+        e.preventDefault();
+      }
+    });
+</script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    // Konfigurasi Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
+      authDomain: "workshop-penilaian.firebaseapp.com",
+      projectId: "workshop-penilaian",
+      storageBucket: "workshop-penilaian.firebasestorage.app",
+      messagingSenderId: "913053975087",
+      appId: "1:913053975087:web:c8d89b4f8ea5316bea3cda",
+      measurementId: "G-TWFS28040R"
+    };
+
+    // Inisialisasi Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Cek login & progress materi 4
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        alert("Silakan login terlebih dahulu.");
+        window.location.href = "index.html";
+      } else {
+        const materi4Done = localStorage.getItem('materi4_selesai');
+        if (materi4Done !== 'true') {
+          alert("Anda harus menyelesaikan Materi 4 terlebih dahulu.");
+          window.location.href = "materi-4.html";
+        }
+      }
+    });
+
+    // Deteksi video selesai
+    const video = document.getElementById('video5');
+    video.addEventListener('ended', () => {
+      localStorage.setItem('materi5_selesai', 'true');
+      alert("Materi 5 selesai! Anda bisa lanjut ke materi 6.");
+
+    });
+  </script>
+</body>
+</html>
