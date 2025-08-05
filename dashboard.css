@@ -55,8 +55,8 @@ footer {
 .petunjuk {
     margin-bottom: 20px;
     border: 1px solid #bbb;
-    border-radius: 3px;
-    padding: 15px;
+    border-radius: 5px;
+    padding: 5px;
     min-width: 95vh;
     background-color: #f9f5de;
 }
@@ -72,6 +72,23 @@ footer {
     font-size: 12pt;
     text-align: left;
     font-weight: bold;
+}
+
+.perintah-title {
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.perintah {
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.perintah a {
+    text-decoration: none;
 }
 
 /* NAVBAR */
