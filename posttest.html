@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Posttest</title>
+</head>
+<body>
+  <h2>Posttest</h2>
+  <p>Silakan jawab pertanyaan-pertanyaan di bawah ini.</p>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    // Konfigurasi Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
+      authDomain: "workshop-penilaian.firebaseapp.com",
+      projectId: "workshop-penilaian",
+      storageBucket: "workshop-penilaian.firebasestorage.app",
+      messagingSenderId: "913053975087",
+      appId: "1:913053975087:web:c8d89b4f8ea5316bea3cda",
+      measurementId: "G-TWFS28040R"
+    };
+
+    // Inisialisasi Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Cek login & progress materi 8
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        alert("Silakan login terlebih dahulu.");
+        window.location.href = "index.html";
+      } else {
+        const materi8Done = localStorage.getItem('materi8_selesai');
+        if (materi8Done !== 'true') {
+          alert("Anda harus menyelesaikan Materi 8 terlebih dahulu.");
+          window.location.href = "materi-8.html";
+        }
+      }
+    });
+
+  </script>
+</body>
+</html>
