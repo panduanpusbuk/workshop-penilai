@@ -49,6 +49,11 @@ button:hover {
   background-color: #1c5980;
 }
 
+.footer {
+    background-color: #f5f5f7;
+    color: ##0000008f;
+}
+
 /* Link daftar materi */
 ul {
   list-style: none;
