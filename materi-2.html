@@ -5,12 +5,12 @@
   <title>Materi 2 – Penyajian Pembelajaran</title>
 </head>
 <body>
-  <h2>Materi 2 – Penyajian Pembelajaran</h2>
-  <p>Silakan tonton video di bawah ini sampai selesai untuk melanjutkan ke materi berikutnya.</p>
+  <h2>Materi 2: Penyajian Pembelajaran</h2>
+  <p>Silakan tonton video di bawah ini.</p>
 
   <!-- Video -->
   <video id="video2" width="640" controls>
-    <source src="https://res.cloudinary.com/demo/video/upload/sample.mp4" type="video/mp4" />
+    <source src="videocontoh2.mp4" type="video/mp4" />
     Browser Anda tidak mendukung tag video.
   </video>
 
@@ -33,19 +33,25 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // Cek apakah user sudah login
+    // Cek login & progress materi 1
     onAuthStateChanged(auth, (user) => {
       if (!user) {
         alert("Silakan login terlebih dahulu.");
         window.location.href = "index.html";
+      } else {
+        const materi1Done = localStorage.getItem('materi1_selesai');
+        if (materi1Done !== 'true') {
+          alert("Anda harus menyelesaikan Materi 1 terlebih dahulu.");
+          window.location.href = "materi-1.html";
+        }
       }
     });
 
-    // Deteksi video selesai
+    // Simpan progress jika video ini selesai
     const video = document.getElementById('video2');
     video.addEventListener('ended', () => {
       localStorage.setItem('materi2_selesai', 'true');
-      alert("Materi 2 selesai! Anda bisa lanjut ke materi 2.");
+      alert("Materi 2 selesai!");
     });
   </script>
 </body>
