@@ -22,10 +22,10 @@
     // Mencegah user seek/maju-mundur di video1
     let lastTime = 0;
     video1.addEventListener('timeupdate', function () {
-      if (Math.abs(video1.currentTime - lastTime) > 0.3) {
+      if (Math.abs(video2.currentTime - lastTime) > 0.3) {
         video1.currentTime = lastTime;
       } else {
-        lastTime = video1.currentTime;
+        lastTime = video2.currentTime;
       }
     });
 
