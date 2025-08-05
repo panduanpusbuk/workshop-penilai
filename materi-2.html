@@ -62,8 +62,8 @@
         alert("Silakan login terlebih dahulu.");
         window.location.href = "index.html";
       } else {
-        const materi1Done = localStorage.getItem('materi_selesai');
-        if (materi1Done !== 'true') {
+        const materi1Done = localStorage.getItem('materi1_selesai');
+        if (materi1Done !== 'false') {
           alert("Anda harus menyelesaikan Materi 1 terlebih dahulu.");
           window.location.href = "materi-1.html";
         }
