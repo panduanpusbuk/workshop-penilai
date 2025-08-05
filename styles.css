@@ -28,7 +28,6 @@ main {
 }
 
 footer {
-  margin-top: 20px;
   text-align: center;
   font-size: 13px;
   color: #6e6e73;
@@ -40,7 +39,7 @@ footer {
     min-height: 7vh;
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding-left: 3vh;
 }
 
 .bantuan {
@@ -48,6 +47,7 @@ footer {
     border-top: solid 1px #252525;
     display: flex;
     align-items: center;
+    padding-left: 3vh;
 }
 
 /* Header Judul */
