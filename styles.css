@@ -38,11 +38,16 @@ footer {
     background-color: #dddddd;
     color: #6e6e73;
     min-height: 7vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .bantuan {
     min-height: 5vh;
-    border-top: solid 1px #0071e3;
+    border-top: solid 1px #252525;
+    display: flex;
+    align-items: center;
 }
 
 /* Header Judul */
@@ -54,7 +59,7 @@ h2 {
 
 /* Paragraf umum */
 p {
-  margin-bottom: 16px;
+  
 }
 
 /* Video styling */
