@@ -8,6 +8,8 @@
 li {
     list-style-position: inside;
     margin-bottom: 5px;
+    border-bottom: 1px dashed #bbb;
+    padding-bottom: 5pt;
 }
 
 body {
@@ -59,19 +61,7 @@ footer {
     padding: 5px;
     min-width: 95vh;
     background-color: #f9f5de;
-}
-
-.petunjuk h2 {
-    margin-bottom: 10px;
-    font-size: 15pt;
-    text-align: center;
-}
-
-.petunjuk h3 {
-    margin-bottom: 10px;
-    font-size: 12pt;
-    text-align: left;
-    font-weight: bold;
+    font-size: 10pt;
 }
 
 .perintah-title {
@@ -89,6 +79,11 @@ footer {
 
 .perintah a {
     text-decoration: none;
+    color: #000;
+}
+
+.perintah a:hover {
+    color: #3787ff;
 }
 
 /* NAVBAR */
