@@ -15,7 +15,7 @@ body {
 }
 
 .container {
-  min-height: 88vh;
+  min-height: 93vh;
   display: grid;
   place-items: center;
   padding: 20px;
