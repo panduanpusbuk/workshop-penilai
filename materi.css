@@ -197,7 +197,7 @@ main {
 }
 
 button {
-    width: 150px;
+    width: 180px;
     padding: 10px;
     background-color: #fff;
     border: 1px solid #bbb;
@@ -207,13 +207,19 @@ button {
   }
 
 .btnHome {
-  background-color: #a2cfff;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
   padding: 10px 20px;
   cursor: pointer;
+  font-size: 12pt;
 }
 
 .btnNext {
-  background-color: #a5ffa8;
+  display: flex;
+  align-items: center;
+  background-color: #cbffcd;
   padding: 10px 20px;
   cursor: pointer;
+  font-size: 12pt;
 }
