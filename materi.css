@@ -38,6 +38,14 @@ body {
   border-radius: 5px;
 }
 
+.container h2 {
+    margin-bottom: 20px;
+    font-weight: 400;
+    text-align: center;
+    border-bottom: 1px dashed #bbb;
+    padding-bottom: 10px;
+}
+
 footer {
   text-align: center;
   font-size: 13px;
@@ -123,7 +131,7 @@ footer {
   margin-right: 1rem;
 }
 
-.nav-right a {
+.nav-left a {
   margin-left: 1.5rem;
   text-decoration: none;
   color: #1d1d1f;
