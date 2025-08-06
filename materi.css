@@ -201,4 +201,6 @@ button {
     background-color: #fff;
     border: 1px solid #bbb;
     border-radius: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
   }
