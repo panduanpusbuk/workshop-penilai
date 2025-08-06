@@ -183,3 +183,22 @@ main {
     font-size: 0.9rem;
   }
 }
+
+/* Tombol Bawah */
+
+.btn-container {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed #bbb;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    width: 150px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+  }
