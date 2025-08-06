@@ -131,6 +131,13 @@ footer {
   margin-right: 1rem;
 }
 
+.nav-left h1 {
+    font-size: 0.95rem;
+    color: #0071e3;
+    border-right: 1px solid #bbb;
+    padding-right: 20px;
+}
+
 .nav-left a {
   margin-left: 1.5rem;
   text-decoration: none;
