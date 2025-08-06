@@ -15,11 +15,11 @@ body {
 }
 
 .container {
-  min-height: 93vh;
-  display: grid;
-  place-items: center;
-  padding: 20px;
-  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 64px); /* kurangi tinggi header */
+  padding: 1rem;
 }
 
 main {
@@ -129,10 +129,14 @@ ul li a:hover {
 
 /* Printilan Login */
  .login-container {
-      background: white;
-      padding: 40px;
-      width: 100%;
-      max-width: 360px;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+  padding: 3rem 2rem;
+  border: 1px solid #d2d2d7;
+  border-radius: 8px;
+  background-color: #fbfbfb;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
 .login-container h2 {
