@@ -5,6 +5,15 @@
   box-sizing: border-box;
 }
 
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+a:hover {
+    color: #4680ff;
+}
+
 body {
   background-color: #fff;
       justify-content: center;
