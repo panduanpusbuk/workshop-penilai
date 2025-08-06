@@ -34,7 +34,7 @@
   <!-- Video -->
    <div class="perintah">Video Materi</div>
   <video id="video1" width="640" controls>
-    <source src="videocontoh.mp4" type="video/mp4" />
+    <source src="video1.mp4" type="video/mp4" />
     Browser Anda tidak mendukung tag video.
   </video>
 
@@ -106,7 +106,7 @@
     const video = document.getElementById('video1');
     video.addEventListener('ended', () => {
       localStorage.setItem('materi1_selesai', 'true');
-      alert("Materi 1 selesai! Anda bisa lanjut ke materi 2.");
+      alert("Materi 1 selesai! Akses ke materi 2 sudah terbuka.");
     });
   </script>
 </body>
