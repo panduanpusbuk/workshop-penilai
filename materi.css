@@ -204,3 +204,15 @@ button {
     margin-left: 5px;
     margin-right: 5px;
   }
+
+.btnHome {
+  background-color: #a2cfff;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.btnNext {
+  background-color: #a5ffa8;
+  padding: 10px 20px;
+  cursor: pointer;
+}
