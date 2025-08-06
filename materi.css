@@ -197,7 +197,7 @@ main {
 }
 
 button {
-    width: 180px;
+    width: auto;
     padding: 10px;
     background-color: #fff;
     border: 1px solid #bbb;
@@ -215,10 +215,29 @@ button {
   font-size: 12pt;
 }
 
+.btnHome:hover {
+  display: flex;
+  align-items: center;
+  background-color: #000000;
+  color: #fff;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 12pt;
+}
+
 .btnNext {
   display: flex;
   align-items: center;
-  background-color: #cbffcd;
+  background-color: #e5ffe6;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 12pt;
+}
+
+.btnNext:hover {
+  display: flex;
+  align-items: center;
+  background-color: #9effa1;
   padding: 10px 20px;
   cursor: pointer;
   font-size: 12pt;
