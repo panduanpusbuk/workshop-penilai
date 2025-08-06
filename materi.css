@@ -45,6 +45,7 @@ body {
     text-align: center;
     border-bottom: 1px dashed #bbb;
     padding-bottom: 10px;
+    width: 100%;
 }
 
 footer {
