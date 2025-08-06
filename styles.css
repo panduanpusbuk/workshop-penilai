@@ -15,7 +15,7 @@ a:hover {
 }
 
 body {
-  background-color: #fff;
+  background-color: #f0f0f0;
       justify-content: center;
       align-items: center;
       height: 100vh;
@@ -39,6 +39,7 @@ footer {
   text-align: center;
   font-size: 13px;
   color: #6e6e73;
+  display: flex;
 }
 
 .kaki {
@@ -59,6 +60,11 @@ footer {
 }
 
 /* Header Judul */
+
+h1 {
+  line-height: 35pt;
+}
+
 h2 {
   margin-bottom: 16px;
   font-size: 24px;
