@@ -207,6 +207,24 @@ button {
     margin-right: 5px;
   }
 
+.btnPrev {
+  display: flex;
+  align-items: center;
+  background-color: #ffd3d3;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 12pt;
+}
+
+.btnPrev:hover {
+  display: flex;
+  align-items: center;
+  background-color: #ff7575;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 12pt;
+}
+
 .btnHome {
   display: flex;
   align-items: center;
