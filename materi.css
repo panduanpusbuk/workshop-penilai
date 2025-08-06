@@ -63,11 +63,12 @@ footer {
 }
 
 .bantuan {
-    min-height: 5vh;
-    border-top: solid 1px #252525;
     display: flex;
     align-items: center;
-    padding-left: 3vh;
+    padding-top: 3vh;
+    margin-top: 50px;
+    margin-bottom: -3rem;
+    font-size: 10pt;
 }
 
 .sambutan {
