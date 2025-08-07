@@ -109,5 +109,28 @@
       alert("Materi 1 selesai! Akses ke materi 2 sudah terbuka.");
     });
   </script>
+
+  <!-- CEGAH KLIK KANAN -->
+  <script>
+  document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+  });
+</script>
+
+<!-- CEGAH SHORTCUT VIEW PAGE SOURCE -->
+ <script>
+  document.addEventListener('keydown', function (e) {
+    // Cegah Ctrl+U (View Page Source)
+    if (e.ctrlKey && e.key.toLowerCase() === 'u') {
+      e.preventDefault();
+    }
+
+    // Cegah Ctrl+Shift+I atau F12 (Developer Tools)
+    if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') || e.key === 'F12') {
+      e.preventDefault();
+    }
+  });
+</script>
+
 </body>
 </html>

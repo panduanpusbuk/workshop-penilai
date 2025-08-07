@@ -33,7 +33,7 @@
   </div>
   <!-- Video -->
    <div class="perintah">Video Materi</div>
-  <video id="video2" width="640" controls>
+  <video id="video2" width="640" controls oncontextmenu="return false" autoplay controls="false" disablePictureInPicture controlsList="nodownload noremoteplayback noplaybackrate">
     <source src="#" type="video/mp4" /><!--- MASUKKAN VIDEO DI SINI-->
     Browser Anda tidak mendukung tag video.
   </video>
@@ -119,5 +119,26 @@
 
     });
   </script>
+    <!-- CEGAH KLIK KANAN -->
+  <script>
+  document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+  });
+</script>
+
+<!-- CEGAH SHORTCUT VIEW PAGE SOURCE -->
+ <script>
+  document.addEventListener('keydown', function (e) {
+    // Cegah Ctrl+U (View Page Source)
+    if (e.ctrlKey && e.key.toLowerCase() === 'u') {
+      e.preventDefault();
+    }
+
+    // Cegah Ctrl+Shift+I atau F12 (Developer Tools)
+    if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') || e.key === 'F12') {
+      e.preventDefault();
+    }
+  });
+</script>
 </body>
 </html>
