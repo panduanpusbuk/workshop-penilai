@@ -21,6 +21,22 @@ body {
   background-position: center; 
 }
 
+.content-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px); /* kurangi tinggi navbar jika perlu */
+  padding: 2rem;
+  border: 1px solid #ddd;
+  margin: auto;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);      
+  -webkit-backdrop-filter: blur(10px);
+}
+
 .container {
   min-height: 88vh;
   display: grid;
