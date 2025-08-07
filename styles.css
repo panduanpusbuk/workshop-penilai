@@ -15,12 +15,15 @@ a:hover {
 }
 
 body {
-  background-color: #f0f0f0;
       justify-content: center;
       align-items: center;
       height: 100vh;
       font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
       color: #1d1d1f;
+      background-image: url('bg1.jpg');
+      background-size: cover;
+      background-repeat: no-repeat; 
+      background-position: center;   
 }
 
 .container {
