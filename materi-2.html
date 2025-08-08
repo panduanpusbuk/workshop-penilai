@@ -1,66 +1,78 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <title>Materi 2 – Penyajian Pembelajaran</title>
   <link rel="stylesheet" href="materi.css">
 </head>
+
 <body>
- <nav class="navbar">
-  <div class="nav-left">
-    <h1>Workshop Penilai BTP: Materi 2</h1>
-    <a href="dashboard.html">Beranda</a>
-    <a href="tentang.html">Tentang Laman Ini</a>
-  </div>
+  <nav class="navbar">
+    <div class="nav-left">
+      <h1>Workshop Penilai BTP: Materi 2</h1>
+      <a href="dashboard.html">Beranda</a>
+      <a href="tentang.html">Tentang Laman Ini</a>
+    </div>
 
-  <div class="nav-right">
-    <a href="#" id="logoutBtn" style="color: #e90000">Logout</a>
-  </div>
-</nav>
+    <div class="nav-right">
+      <a href="#" id="logoutBtn" style="color: #e90000">Logout</a>
+    </div>
+  </nav>
 
-<main class="content-wrapper">
-<div class="container">
-<h2>Penyajian Pembelajaran</h2>
-<div class="perintah">Sebelum Memulai:</div>
-  <div class="petunjuk">
-  <ol>
-    <li>Video tidak dapat dilewati tetapi masih dapat dijeda.</li>
-    <li>Gunakan tombol jeda untuk mencatat bagian yang perlu dicatat.</li>
-    <li>Video dapat diputar kembali dari awal, tetapi tidak dapat diulang dari bagian yang diinginkan.</li>
-    <li>Setelah video selesai, akses ke materi berikutnya akan terbuka. </li>
-    <li>Data akan tetap tersimpan meskipun Bapak/Ibu logout, menutup peramban, dan mematikan laptop/PC.</li>
-  </ol>
-  </div>
-  <!-- Video -->
-   <div class="perintah">Video Materi</div>
-  <video id="video2" width="640" controls oncontextmenu="return false" disablePictureInPicture controlsList="nodownload noremoteplayback noplaybackrate">
-    <source src="#" type="video/mp4" /><!--- MASUKKAN VIDEO DI SINI-->
-    Browser Anda tidak mendukung tag video.
-  </video>
+  <main class="content-wrapper">
+    <div class="container">
+      <h2>Penyajian Pembelajaran</h2>
+      <div class="perintah">Sebelum Memulai:</div>
+      <div class="petunjuk">
+        <ol>
+          <li>Video tidak dapat dilewati tetapi masih dapat dijeda.</li>
+          <li>Gunakan tombol jeda untuk mencatat bagian yang perlu dicatat.</li>
+          <li>Video dapat diputar kembali dari awal, tetapi tidak dapat diulang dari bagian yang diinginkan.</li>
+          <li>Setelah video selesai, akses ke materi berikutnya akan terbuka. </li>
+          <li>Data akan tetap tersimpan meskipun Bapak/Ibu logout, menutup peramban, dan mematikan laptop/PC.</li>
+        </ol>
+      </div>
+      <!-- Video -->
+      <div class="perintah">Video Materi</div>
+      <video id="video2" width="640" controls oncontextmenu="return false" disablePictureInPicture
+        controlsList="nodownload noremoteplayback noplaybackrate">
+        <source src="#" type="video/mp4" /><!--- MASUKKAN VIDEO DI SINI-->
+        Browser Anda tidak mendukung tag video.
+      </video>
 
-  <div class="btn-container">
-    <button onclick="window.location.href='materi-1'" class="btnPrev"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" style="margin-right: 5px" class="bi bi-arrow-left-square" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
-</svg>Materi Sebelumnya</button>
-    <button onclick="window.location.href='dashboard.html'" class="btnHome"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" style="margin-right: 5px" class="bi bi-list-check" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3.854 2.146a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 3.293l1.146-1.147a.5.5 0 0 1 .708 0m0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 7.293l1.146-1.147a.5.5 0 0 1 .708 0m0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0"/>
-</svg>Daftar Materi</button>
-    <button onclick="window.location.href='materi-3.html'" class="btnNext"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" style="margin-right: 5px" class="bi bi-arrow-right-square" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
-</svg>Materi Berikutnya</button>
-  </div>
-<div class="bantuan">
-    <h4>Butuh bantuan? Silakan kirim pesan Whatsapp ke 0888-8888-8888</h4>
-  </div>
-  </div><!--END OF MATERI CONTAINER-->
+      <div class="btn-container">
+        <button onclick="window.location.href='materi-1'" class="btnPrev"><svg xmlns="http://www.w3.org/2000/svg"
+            width="25" height="25" fill="currentColor" style="margin-right: 5px" class="bi bi-arrow-left-square"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
+          </svg>Materi Sebelumnya</button>
+        <button onclick="window.location.href='dashboard.html'" class="btnHome"><svg xmlns="http://www.w3.org/2000/svg"
+            width="25" height="25" fill="currentColor" style="margin-right: 5px" class="bi bi-list-check"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3.854 2.146a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 3.293l1.146-1.147a.5.5 0 0 1 .708 0m0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 7.293l1.146-1.147a.5.5 0 0 1 .708 0m0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0" />
+          </svg>Daftar Materi</button>
+        <button onclick="window.location.href='materi-3.html'" class="btnNext"><svg xmlns="http://www.w3.org/2000/svg"
+            width="25" height="25" fill="currentColor" style="margin-right: 5px" class="bi bi-arrow-right-square"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z" />
+          </svg>Materi Berikutnya</button>
+      </div>
+      <div class="bantuan">
+        <h4>Butuh bantuan? Silakan kirim pesan Whatsapp ke 0888-8888-8888</h4>
+      </div>
+    </div><!--END OF MATERI CONTAINER-->
   </main>
 
-   <!-- JavaScript ANTI-SKIP -->
-<script>
+  <!-- JavaScript ANTI-SKIP -->
+  <script>
     const video1 = document.getElementById('video1');
     const video2 = document.getElementById('video2');
 
-    // Mencegah user seek/maju-mundur di video2
+    // ANTI-SEEK
     let lastTime = 0;
     video2.addEventListener('timeupdate', function () {
       if (Math.abs(video2.currentTime - lastTime) > 0.3) {
@@ -70,13 +82,13 @@
       }
     });
 
-    // Nonaktifkan tombol keyboard skip (opsional)
+    // ANTI SHORTCUT SKIP 
     window.addEventListener('keydown', function (e) {
       if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) {
         e.preventDefault();
       }
     });
-</script>
+  </script>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -119,26 +131,27 @@
 
     });
   </script>
-    <!-- CEGAH KLIK KANAN -->
+  <!-- CEGAH KLIK KANAN -->
   <script>
-  document.addEventListener('contextmenu', function (e) {
-    e.preventDefault();
-  });
-</script>
-
-<!-- CEGAH SHORTCUT VIEW PAGE SOURCE -->
- <script>
-  document.addEventListener('keydown', function (e) {
-    // Cegah Ctrl+U (View Page Source)
-    if (e.ctrlKey && e.key.toLowerCase() === 'u') {
+    document.addEventListener('contextmenu', function (e) {
       e.preventDefault();
-    }
+    });
+  </script>
 
-    // Cegah Ctrl+Shift+I atau F12 (Developer Tools)
-    if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') || e.key === 'F12') {
-      e.preventDefault();
-    }
-  });
-</script>
+  <!-- CEGAH SHORTCUT VIEW PAGE SOURCE -->
+  <script>
+    document.addEventListener('keydown', function (e) {
+      // Cegah Ctrl+U (View Page Source)
+      if (e.ctrlKey && e.key.toLowerCase() === 'u') {
+        e.preventDefault();
+      }
+
+      // Cegah Ctrl+Shift+I atau F12 (Developer Tools)
+      if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') || e.key === 'F12') {
+        e.preventDefault();
+      }
+    });
+  </script>
 </body>
+
 </html>

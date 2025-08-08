@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Workshop Penilaian BTP 2025 Pusat Perbukuan</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-  
+
   <main class="container">
     <h1>Selamat datang di Workshop Penilai Buku Teks Pendamping</h1>
-  <div class="login-container">
-    <h2>Masuk ke Workshop</h2>
+    <div class="login-container">
+      <h2>Masuk ke Workshop</h2>
 
-    <button id="loginBtn">dengan Google</button>
+      <button id="loginBtn">dengan Google</button>
 
-    <div class="note">
-      Hanya untuk peserta terundang. <a href="#">Tidak dapat masuk?</a>
+      <div class="note">
+        Hanya untuk peserta terundang. <a href="#">Tidak dapat masuk?</a>
+      </div>
     </div>
-  </div>
-</main>
+  </main>
   <div class="kaki">
-  <footer>
-    <p>Copyright © 2025 Faiz Alfian. All rights reserved.</p><a href="tentang.html" style="margin-left: 10px; border-left: 1px solid #bbb; padding-left: 10px;">Tentang Laman Ini</a>
-  </footer>
+    <footer>
+      <p>Copyright © 2025 Faiz Alfian. All rights reserved.</p><a href="tentang.html"
+        style="margin-left: 10px; border-left: 1px solid #bbb; padding-left: 10px;">Tentang Laman Ini</a>
+    </footer>
   </div>
 
-   <!-- KHUSUS SCRIPT. HATI-HATI. KHUSUS SCRIPT -->
+  <!-- KHUSUS SCRIPT. HATI-HATI. KHUSUS SCRIPT -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -42,9 +45,9 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
-  provider.setCustomParameters({
-    prompt: 'select_account'
-  });
+    provider.setCustomParameters({
+      prompt: 'select_account'
+    });
 
     const allowedEmails = [
       "alfianfaizmi@gmail.com",
@@ -64,18 +67,19 @@
         });
     });
 
-    // 🔐 Cek email saat login berhasil
+    // CEK APAKAH PESERTA ATAU BUKAN
     onAuthStateChanged(auth, (user) => {
       if (user) {
         if (allowedEmails.includes(user.email)) {
           window.location.href = "dashboard.html";
         } else {
           alert("Akses ditolak. Bapak/Ibu bukan peserta workshop.");
-          signOut(auth); // Logout otomatis jika tidak diizinkan
+          signOut(auth); // Logout otomatis jika bukan peserta
         }
       }
     });
   </script>
   <!-- AKHIR DARI KHUSUS SCRIPT -->
 </body>
+
 </html>
