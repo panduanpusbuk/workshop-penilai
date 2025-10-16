@@ -34,7 +34,7 @@
   <!-- KHUSUS SCRIPT. HATI-HATI. KHUSUS SCRIPT -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
@@ -65,42 +65,42 @@
       // TAMBAHKAN EMAIL DI SINI
     ];
 
-    const loginBtn = document.getElementById("loginBtn");
-
-    loginBtn.addEventListener("click", () => {
-      signInWithPopup(auth, provider)
-        .catch((error) => {
-          alert("Login gagal: " + error.message);
-        });
-    });
-
-    // CEK APAKAH PESERTA ATAU BUKAN
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
+    // LOGIN DENGAN GOOGLE
+    document.getElementById("loginBtn").addEventListener("click", () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
         if (allowedEmails.includes(user.email)) {
           window.location.href = "dashboard.html";
         } else {
           alert("Akses ditolak. Bapak/Ibu bukan peserta workshop.");
-          signOut(auth); // Logout otomatis jika bukan peserta
+          signOut(auth);
         }
-      }
-    });
+      })
+      .catch((error) => {
+        alert("Login gagal: " + error.message);
+      });
+  });
 
-    import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    // LOGIN DENGAN EMAIL/PASSWORD
+  document.getElementById("loginEmailBtn").addEventListener("click", () => {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
 
-    const emailBtn = document.getElementById("loginEmailBtn");
-    emailBtn.addEventListener("click", () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      signInWithEmailAndPassword(auth, email, password)
-        .then((result) => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        const user = result.user;
+        if (allowedEmails.includes(user.email)) {
           window.location.href = "dashboard.html";
-        })
-        .catch((error) => {
-          alert("Login gagal: " + error.message);
-        });
-    });
+        } else {
+          alert("Akses ditolak. Bapak/Ibu bukan peserta workshop.");
+          signOut(auth);
+        }
+      })
+      .catch((error) => {
+        alert("Login gagal: " + error.message);
+      });
+  });
 
   </script>
 
