@@ -8,17 +8,18 @@
 </head>
 
 <body>
+  <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-left">
       <h1>Workshop Penilai BTP: Materi 1</h1>
       <a href="dashboard.html">Beranda</a>
       <a href="tentang.html">Tentang Laman Ini</a>
     </div>
+
     <div class="nav-right">
       <a href="#" id="logoutBtn" style="color: #e90000">Logout</a>
     </div>
   </nav>
-
   <main class="content-wrapper">
     <div class="container">
       <h2>Kriteria dan Perbedaan Buku Teks Utama dan Buku Teks Pendamping</h2>
@@ -30,11 +31,11 @@
           <li>Video tidak dapat diulang dari bagian yang diinginkan tetapi dapat diputar kembali dari awal.</li>
           <li>Apabila keluar di tengah-tengah video materi, Bapak/Ibu harus mengulang kembali ke detik pertama.</li>
           <li>Tunggu sampai videonya benar-benar selesai/berhenti dengan sendirinya.</li>
-          <li>Setelah video selesai, akses ke materi berikutnya akan terbuka.</li>
+          <li>Setelah video selesai, akses ke materi berikutnya akan terbuka. </li>
           <li>Data akan tetap tersimpan meskipun Bapak/Ibu logout, menutup peramban, dan mematikan laptop/PC.</li>
         </ol>
       </div>
-
+      <!-- Video -->
       <div class="perintah">Video Materi</div>
       <video id="video1" width="640" controls oncontextmenu="return false" disablePictureInPicture
         controlsList="nodownload noremoteplayback noplaybackrate">
@@ -43,20 +44,31 @@
       </video>
 
       <div class="btn-container">
-        <button onclick="window.location.href='dashboard.html'" class="btnHome">Daftar Materi</button>
-        <button onclick="window.location.href='materi-2.html'" class="btnNext">Materi Berikutnya</button>
+        <button onclick="window.location.href='dashboard.html'" class="btnHome"><svg xmlns="http://www.w3.org/2000/svg"
+            width="25" height="25" fill="currentColor" style="margin-right: 5px" class="bi bi-list-check"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3.854 2.146a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 3.293l1.146-1.147a.5.5 0 0 1 .708 0m0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 7.293l1.146-1.147a.5.5 0 0 1 .708 0m0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0" />
+          </svg>Daftar Materi</button>
+        <button onclick="window.location.href='materi-2.html'" class="btnNext"><svg xmlns="http://www.w3.org/2000/svg"
+            width="25" height="25" fill="currentColor" style="margin-right: 5px" class="bi bi-arrow-right-square"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z" />
+          </svg>Materi Berikutnya</button>
       </div>
       <div class="bantuan">
         <h4>Butuh bantuan? Silakan kirim pesan Whatsapp ke 0813-9328-1701 (Talitha)</h4>
       </div>
-    </div>
+    </div><!--END OF MATERI CONTAINER-->
   </main>
 
+  <!-- JavaScript ANTI-SKIP -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+    // Konfigurasi Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
       authDomain: "workshop-penilaian.firebaseapp.com",
@@ -67,9 +79,9 @@
       measurementId: "G-TWFS28040R"
     };
 
+    // Inisialisasi Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    const db = getFirestore(app);
 
     const adminEmails = [
       "alfianfaizmi@gmail.com",
@@ -78,7 +90,8 @@
 
     const video1 = document.getElementById('video1');
 
-    onAuthStateChanged(auth, async (user) => {
+    // Cek login
+    onAuthStateChanged(auth, (user) => {
       if (!user) {
         alert("Silakan login terlebih dahulu.");
         window.location.href = "index.html";
@@ -87,32 +100,36 @@
 
       const isAdmin = adminEmails.includes(user.email);
 
-      const userDocRef = doc(db, "users", user.uid);
-      let userDocSnap = await getDoc(userDocRef);
-
-      // Jika user baru, buat dokumen default
-      if (!userDocSnap.exists()) {
-        await setDoc(userDocRef, {
-          materi1: false,
-          materi2: false,
-          materi3: false,
-          materi4: false,
-          materi5: false,
-          materi6: false,
-          materi7: false,
-          materi8: false
-        });
-        userDocSnap = await getDoc(userDocRef);
+    if (isAdmin) {
+      console.log("Admin login, semua materi terbuka.");
+      // Unlock semua materi
+      for (let i = 1; i <= 8; i++) {
+        localStorage.setItem(`materi${i}_selesai`, 'true');
       }
+    }
 
-      if (isAdmin) {
-        console.log("Admin login: semua materi terbuka.");
+    // Lanjutkan logika tampilan materi seperti biasa
+    for (let i = 1; i <= 8; i++) {
+      const next = i + 1;
+      const tombol = document.getElementById(`materi${next}`);
+      if (tombol && localStorage.getItem(`materi${i}_selesai`) === 'true') {
+        tombol.classList.remove('disabled');
+      }
+    }
+
+      // Admin sak penake dewe
+      if (adminEmails.includes(user.email)) {
+        console.log("Admin login:", user.email);
         video1.controls = true;
-        return;
+        if (video2) video2.controls = true;
+        return; // stop di sini, tidak pasang anti-skip
       }
+
+      console.log("Peserta login:", user.email);
 
       // Anti-skip peserta
       let lastTime = 0;
+
       video1.addEventListener('timeupdate', function () {
         if (Math.abs(video1.currentTime - lastTime) > 0.3) {
           video1.currentTime = lastTime;
@@ -122,18 +139,18 @@
       });
 
       window.addEventListener('keydown', function (e) {
-        if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) e.preventDefault();
+        if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) {
+          e.preventDefault();
+        }
       });
     });
 
-    // Video selesai → update Firestore
-    video1.addEventListener('ended', async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-      const userDocRef = doc(db, "users", user.uid);
-      await updateDoc(userDocRef, { materi1: true });
-      alert("Materi 1 selesai! Anda bisa lanjut ke materi 2.");
+    // Deteksi video selesai
+    video1.addEventListener('ended', () => {
+      localStorage.setItem('materi1_selesai', 'true');
+      alert("Materi 1 selesai! Akses ke materi berikutnya sudah terbuka.");
     });
   </script>
 </body>
+
 </html>
