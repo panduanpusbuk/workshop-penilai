@@ -32,7 +32,7 @@
           <li>Apabila keluar di tengah-tengah video materi, Bapak/Ibu harus mengulang kembali ke detik pertama.</li>
           <li>Tunggu sampai videonya benar-benar selesai/berhenti dengan sendirinya.</li>
           <li>Setelah video selesai, akses ke materi berikutnya akan terbuka.</li>
-          <li>Progres tersimpan di server sehingga bisa diakses dari device lain.</li>
+          <li>Data akan tetap tersimpan meskipun Bapak/Ibu logout, menutup peramban, dan mematikan laptop/PC.</li>
         </ol>
       </div>
 
@@ -45,30 +45,15 @@
 
       <div class="btn-container">
         <button onclick="window.location.href='dashboard.html'" class="btnHome">Daftar Materi</button>
-        <button id="btnNext" class="btnNext" disabled>Materi Berikutnya</button>
-      </div>
-
-      <div class="bantuan">
-        <h4>Butuh bantuan? Silakan kirim pesan Whatsapp ke 0813-9328-1701 (Talitha)</h4>
+        <button id="nextBtn" class="btnNext">Materi Berikutnya</button>
       </div>
     </div>
   </main>
 
-  <!-- JavaScript Firebase + Firestore -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import {
-      getAuth,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import {
-      getFirestore,
-      doc,
-      getDoc,
-      setDoc,
-      updateDoc
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
@@ -76,8 +61,7 @@
       projectId: "workshop-penilaian",
       storageBucket: "workshop-penilaian.firebasestorage.app",
       messagingSenderId: "913053975087",
-      appId: "1:913053975087:web:c8d89b4f8ea5316bea3cda",
-      measurementId: "G-TWFS28040R"
+      appId: "1:913053975087:web:c8d89b4f8ea5316bea3cda"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -89,73 +73,67 @@
       "faiz.alfian@kemdikbud.go.id"
     ];
 
-    const video1 = document.getElementById('video1');
-    const btnNext = document.getElementById('btnNext');
-    const logoutBtn = document.getElementById('logoutBtn');
+    const video1 = document.getElementById("video1");
+    const nextBtn = document.getElementById("nextBtn");
+    let manualLogout = false;
 
-    // Logout
-    logoutBtn.addEventListener('click', async () => {
+    // Logout button
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      manualLogout = true;
       await signOut(auth);
       window.location.href = "index.html";
     });
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        alert("Silakan login terlebih dahulu.");
+        if (!manualLogout) alert("Silakan login terlebih dahulu.");
         window.location.href = "index.html";
         return;
       }
 
       const isAdmin = adminEmails.includes(user.email);
 
-      const userDocRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userDocRef);
+      // Jika admin, unlock tombol materi berikutnya
+      if (isAdmin) nextBtn.disabled = false;
 
-      // Jika user baru, buat dokumen default
-      if (!userSnap.exists()) {
-        await setDoc(userDocRef, {
-          email: user.email,
-          materi1_selesai: false
+      // Cek progres peserta
+      if (!isAdmin) {
+        const userDoc = doc(db, "users", user.uid);
+        const snap = await getDoc(userDoc);
+        const progress = snap.exists() ? snap.data() : {};
+        // Materi 1 selalu bisa diakses
+        nextBtn.disabled = !progress.materi1;
+      }
+
+      // Anti-skip peserta
+      if (!isAdmin) {
+        let lastTime = 0;
+        video1.addEventListener("timeupdate", function () {
+          if (Math.abs(video1.currentTime - lastTime) > 0.3) {
+            video1.currentTime = lastTime;
+          } else lastTime = video1.currentTime;
+        });
+        window.addEventListener("keydown", (e) => {
+          if (["ArrowLeft", "ArrowRight", " ", "k", "j", "l"].includes(e.key)) e.preventDefault();
         });
       }
+    });
 
-      if (isAdmin) {
-        console.log("Admin login:", user.email);
-        video1.controls = true;
-        btnNext.disabled = false; // semua materi terbuka
-        return;
-      }
+    // Simpan progres saat video selesai
+    video1.addEventListener("ended", async () => {
+      const user = auth.currentUser;
+      if (!user) return;
 
-      // Peserta: cek progres
-      const userData = (await getDoc(userDocRef)).data();
-      if (userData.materi1_selesai) {
-        btnNext.disabled = false;
-      }
+      const userDoc = doc(db, "users", user.uid);
+      await setDoc(userDoc, { materi1: true }, { merge: true });
 
-      // Anti-skip
-      let lastTime = 0;
-      video1.addEventListener('timeupdate', function () {
-        if (Math.abs(video1.currentTime - lastTime) > 0.3) {
-          video1.currentTime = lastTime;
-        } else {
-          lastTime = video1.currentTime;
-        }
-      });
+      alert("Materi 1 selesai! Anda bisa lanjut ke Materi 2.");
+      nextBtn.disabled = false;
+    });
 
-      window.addEventListener('keydown', function (e) {
-        if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) {
-          e.preventDefault();
-        }
-      });
-
-      // Video selesai -> update Firestore
-      video1.addEventListener('ended', async () => {
-        await updateDoc(userDocRef, { materi1_selesai: true });
-        alert("Materi 1 selesai! Anda bisa lanjut ke materi berikutnya.");
-        btnNext.disabled = false;
-      });
+    nextBtn.addEventListener("click", () => {
+      window.location.href = "materi-2.html";
     });
   </script>
 </body>
-
 </html>
