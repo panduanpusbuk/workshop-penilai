@@ -1,120 +1,89 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <title>Dashboard</title>
   <link rel="stylesheet" href="dashboard.css">
-
-  <!-- KHUSUS SCRIPT. HATI-HATI. KHUSUS SCRIPT -->
-
-  <!-- AKHIR DARI KHUSUS SCRIPT -->
-
 </head>
-
 <body>
-
-  <!-- Loading Screen -->
-  <div id="loading-screen" style="
-  position: fixed; inset: 0;
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: sans-serif;
-  font-size: 1.2rem;
-  z-index: 9999;
-">
-    Memeriksa akses...
-  </div>
   <!-- Navbar -->
-  <nav class="navbar">
-    <div class="nav-left">
-      <img src="logo.png" alt="Logo Lembaga">
-    </div>
-
-    <div class="nav-center">
-      Workshop Penilaian BTP | Dashboard
-    </div>
-
-    <div class="nav-right">
-      <a href="#">Tentang Laman Ini</a>
-      <a href="#" id="logoutBtn" style="color: #e90000">Logout</a>
-    </div>
-  </nav>
-  <div class="sambutan">
-    <h2>Selamat datang di workshop penilai buku teks pendamping 2025</h2>
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="logo.png" alt="Logo Lembaga">
   </div>
-  <div class="container">
-    <main>
-      <div class="perintah-title">
-        <h4>Silakan pelajari semua materi di bawah ini</h4>
-      </div>
-      <div class="petunjuk">
-        Mulailah dari materi pertama. Materi selanjutnya akan terbuka setelah menyelesaikan video materi sebelumnya.
-      </div>
-      <!-- Buat catatan disclaimer di sini seperti tiap materi berdurasi 15 menit-->
-      <div class="perintah">
-        <ol>
-          <li><a href="materi-1.html">Kriteria dan Perbedaan BTU dan BTP</a></li>
-          <li><a href="materi-2.html">Penyajian Pembelajaran Mendalam</a></li>
-          <li><a href="materi-3.html">Kisi-kisi Penyajian Buku beserta Contoh</a></li>
-          <li><a href="materi-4.html">Legalitas, Norma, dan Etika dalam Penulisan/Penyajian BTP</a></li>
-          <li><a href="materi-5.html">Instrumen Penilaian BTP</a></li>
-          <li><a href="materi-6.html">Objektivitas Penilaian BTP</a></li>
-          <li><a href="materi-7.html">Mekanisme Penilaian BTP</a></li>
-          <li><a href="materi-8.html">Aplikasi Penilaian BTP</a></li>
-          <li><a href="posttest.html">Posttest</a></li>
-        </ol>
-      </div>
-    </main>
+
+  <div class="nav-center">
+    Workshop Penilaian BTP | Dashboard
+  </div>
+
+  <div class="nav-right">
+    <a href="#">Tentang Laman Ini</a>
+    <a href="#" id="logoutBtn" style="color: #e90000">Logout</a>
+  </div>
+</nav>
+ <div class="sambutan">
+  <h2>Selamat datang di workshop penilai buku teks pendamping 2025</h2>
+  </div>
+<div class="container">
+<main>
+  <div class="perintah-title">
+  <h4>Silakan pelajari semua materi di bawah ini</h4>
+  </div>
+  <div class="petunjuk">
+  Mulailah dari materi pertama. Materi selanjutnya akan terbuka setelah menyelesaikan video materi sebelumnya.
+  </div>
+  <!-- Buat catatan disclaimer di sini seperti tiap materi berdurasi 15 menit-->
+  <div class="perintah">
+  <ol>
+    <li><a href="materi-1.html">Kriteria dan Perbedaan BTU dan BTP</a></li>
+    <li><a href="materi-2.html">Penyajian Pembelajaran Mendalam</a></li>
+    <li><a href="materi-3.html">Kisi-kisi Penyajian Buku beserta Contoh</a></li>
+    <li><a href="materi-4.html">Legalitas, Norma, dan Etika dalam Penulisan/Penyajian BTP</a></li>
+    <li><a href="materi-5.html">Instrumen Penilaian BTP</a></li>
+    <li><a href="materi-6.html">Objektivitas Penilaian BTP</a></li>
+    <li><a href="materi-7.html">Mekanisme Penilaian BTP</a></li>
+    <li><a href="materi-8.html">Aplikasi Penilaian BTP</a></li>
+    <li><a href="posttest.html">Posttest</a></li>
+  </ol>
+  </div>
+  </main>
   </div>
   <div class="bantuan">
     <h4>Butuh bantuan? Silakan kirim pesan Whatsapp ke 0888-8888-8888</h4>
   </div>
   <div class="kaki">
-    <footer>
-      <p>Copyright © 2025 Faiz Alfian. All rights reserved.</p>
-    </footer>
+  <footer>
+    <p>Copyright © 2025 Faiz Alfian. All rights reserved.</p>
+  </footer>
   </div>
+  <!-- KHUSUS SCRIPT. HATI-HATI. KHUSUS SCRIPT -->
 
-    <script type="module">
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  <script type="module">
+  import { logout } from "./js/firebase.js";
+  document.getElementById("logoutBtn").addEventListener("click", logout);
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-  const auth = getAuth();
+  const firebaseConfig = {
+    apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
+    authDomain: "workshop-penilaian.firebaseapp.com",
+    projectId: "workshop-penilaian",
+    storageBucket: "workshop-penilaian.firebasestorage.app",
+    messagingSenderId: "913053975087",
+    appId: "1:913053975087:web:c8d89b4f8ea5316bea3cda",
+    measurementId: "G-TWFS28040R"
+  };
 
-  // Loading screen: tampil dulu
-  const loading = document.getElementById("loading-screen");
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-  // Cek status login Firebase
   onAuthStateChanged(auth, (user) => {
     if (!user) {
-      // Tidak login → arahkan ke index
+      // Jika belum login, kembali ke halaman login
       window.location.href = "index.html";
-    } else {
-      console.log("Login sebagai:", user.email);
-
-      // Setelah login berhasil, sembunyikan loading screen
-      if (loading) {
-        loading.style.opacity = "0";
-        setTimeout(() => loading.style.display = "none", 500);
-      }
-    }
-  });
-
-  // Tombol logout
-  document.addEventListener("DOMContentLoaded", () => {
-    const logoutBtn = document.getElementById("logoutBtn");
-    if (logoutBtn) {
-      logoutBtn.addEventListener("click", () => {
-        signOut(auth).then(() => {
-          window.location.href = "index.html";
-        });
-      });
     }
   });
 </script>
-
+<!-- AKHIR DARI KHUSUS SCRIPT -->
 
 </body>
-
 </html>
