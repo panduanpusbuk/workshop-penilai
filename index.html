@@ -43,7 +43,7 @@
     signInWithEmailAndPassword
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-  // Konfigurasi Akun Firebase
+  // Konfigurasi Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
     authDomain: "workshop-penilaian.firebaseapp.com",
@@ -54,53 +54,54 @@
     measurementId: "G-TWFS28040R"
   };
 
-  // Inisialisasi Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
 
-  // Daftar Akun yang Diizinkan
-  let allowedEmails = [];
-  fetch("orangterpilih.json")
-    .then(response => response.json())
-    .then(data => {
-      allowedEmails = data.emails.map(email => email.toLowerCase());
-      console.log("Daftar peserta berhasil dimuat:", allowedEmails);
-    })
-    .catch(err => console.error("Gagal memuat daftar peserta:", err));
+  // Dahulukan memuat daftar peserta
+  const pesertaPromise = fetch("orangterpilih.json")
+    .then(res => res.json())
+    .then(data => data.emails.map(email => email.toLowerCase()))
+    .catch(err => {
+      console.error("Gagal memuat daftar peserta:", err);
+      alert("Gagal memuat daftar peserta.");
+      return [];
+    });
 
   // Login dengan Google
-  const loginBtn = document.getElementById("loginBtn");
-  loginBtn.addEventListener("click", () => {
+  document.getElementById("loginBtn").addEventListener("click", () => {
     signInWithPopup(auth, provider)
       .catch(error => alert("Login gagal: " + error.message));
   });
 
-  // Login dengan Email & Password
-  const emailBtn = document.getElementById("loginEmailBtn");
-  emailBtn.addEventListener("click", () => {
+  // Login dengan Email
+  document.getElementById("loginEmailBtn").addEventListener("click", () => {
     const email = document.getElementById("email").value.toLowerCase();
     const password = document.getElementById("password").value;
-
     signInWithEmailAndPassword(auth, email, password)
       .catch(error => alert("Login gagal: " + error.message));
   });
 
-  // Cek apakah peserta terdaftar atau bukan
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const userEmail = user.email.toLowerCase();
+  // Cek status login + daftar peserta
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) return;
+    const allowedEmails = await pesertaPromise;
+    const userEmail = user.email.toLowerCase();
 
-      if (allowedEmails.includes(userEmail)) {
-        window.location.href = "dashboard.html";
-      } else {
-        alert("Akses ditolak. Bapak/Ibu bukan peserta workshop.");
-        signOut(auth);
-      }
+    console.log("User login:", userEmail);
+    console.log("Allowed list:", allowedEmails);
+
+    if (allowedEmails.includes(userEmail)) {
+      console.log("Akses diizinkan");
+      window.location.href = "dashboard.html";
+    } else {
+      alert("Akses ditolak. Bapak/Ibu bukan peserta workshop.");
+      signOut(auth);
     }
   });
 </script>
+
 
   <!-- AKHIR DARI KHUSUS SCRIPT -->
 </body>
