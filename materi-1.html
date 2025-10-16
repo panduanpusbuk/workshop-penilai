@@ -28,9 +28,7 @@
         <ol>
           <li>Video tidak dapat dilewati tetapi masih dapat dijeda.</li>
           <li>Gunakan tombol jeda untuk mencatat bagian yang perlu dicatat.</li>
-          <li>Video tidak dapat diulang dari bagian yang diinginkan tetapi dapat diputar kembali dari awal.</li>
-          <li>Apabila keluar di tengah-tengah video materi, Bapak/Ibu harus mengulang kembali ke detik pertama.</li>
-          <li>Tunggu sampai videonya benar-benar selesai/berhenti dengan sendirinya.</li>
+          <li>Video dapat diputar kembali dari awal, tetapi tidak dapat diulang dari bagian yang diinginkan.</li>
           <li>Setelah video selesai, akses ke materi berikutnya akan terbuka. </li>
           <li>Data akan tetap tersimpan meskipun Bapak/Ibu logout, menutup peramban, dan mematikan laptop/PC.</li>
         </ol>
@@ -58,12 +56,34 @@
           </svg>Materi Berikutnya</button>
       </div>
       <div class="bantuan">
-        <h4>Butuh bantuan? Silakan kirim pesan Whatsapp ke 0813-9328-1701 (Talitha)</h4>
+        <h4>Butuh bantuan? Silakan kirim pesan Whatsapp ke 0888-8888-8888</h4>
       </div>
     </div><!--END OF MATERI CONTAINER-->
   </main>
 
   <!-- JavaScript ANTI-SKIP -->
+  <script>
+    const video1 = document.getElementById('video1');
+    const video2 = document.getElementById('video2');
+
+    // Mencegah user seek/maju-mundur di video1
+    let lastTime = 0;
+    video1.addEventListener('timeupdate', function () {
+      if (Math.abs(video1.currentTime - lastTime) > 0.3) {
+        video1.currentTime = lastTime;
+      } else {
+        lastTime = video1.currentTime;
+      }
+    });
+
+    // Nonaktifkan tombol keyboard skip (opsional)
+    window.addEventListener('keydown', function (e) {
+      if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) {
+        e.preventDefault();
+      }
+    });
+  </script>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -83,74 +103,44 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    const adminEmails = [
-      "alfianfaizmi@gmail.com",
-      "faiz.alfian@kemdikbud.go.id"
-    ];
-
-    const video1 = document.getElementById('video1');
-
-    // Cek login
+    // Cek apakah user sudah login
     onAuthStateChanged(auth, (user) => {
       if (!user) {
         alert("Silakan login terlebih dahulu.");
         window.location.href = "index.html";
-        return;
       }
-
-      const isAdmin = adminEmails.includes(user.email);
-
-    if (isAdmin) {
-      console.log("Admin login, semua materi terbuka.");
-      // Unlock semua materi
-      for (let i = 1; i <= 8; i++) {
-        localStorage.setItem(`materi${i}_selesai`, 'true');
-      }
-    }
-
-    // Lanjutkan logika tampilan materi seperti biasa
-    for (let i = 1; i <= 8; i++) {
-      const next = i + 1;
-      const tombol = document.getElementById(`materi${next}`);
-      if (tombol && localStorage.getItem(`materi${i}_selesai`) === 'true') {
-        tombol.classList.remove('disabled');
-      }
-    }
-
-      // Admin sak penake dewe
-      if (adminEmails.includes(user.email)) {
-        console.log("Admin login:", user.email);
-        video1.controls = true;
-        if (video2) video2.controls = true;
-        return; // stop di sini, tidak pasang anti-skip
-      }
-
-      console.log("Peserta login:", user.email);
-
-      // Anti-skip peserta
-      let lastTime = 0;
-
-      video1.addEventListener('timeupdate', function () {
-        if (Math.abs(video1.currentTime - lastTime) > 0.3) {
-          video1.currentTime = lastTime;
-        } else {
-          lastTime = video1.currentTime;
-        }
-      });
-
-      window.addEventListener('keydown', function (e) {
-        if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) {
-          e.preventDefault();
-        }
-      });
     });
 
     // Deteksi video selesai
-    video1.addEventListener('ended', () => {
+    const video = document.getElementById('video1');
+    video.addEventListener('ended', () => {
       localStorage.setItem('materi1_selesai', 'true');
-      alert("Materi 1 selesai! Akses ke materi berikutnya sudah terbuka.");
+      alert("Materi 1 selesai! Akses ke materi 2 sudah terbuka.");
     });
   </script>
+
+  <!-- CEGAH KLIK KANAN -->
+  <script>
+    document.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+    });
+  </script>
+
+  <!-- CEGAH SHORTCUT VIEW PAGE SOURCE -->
+  <script>
+    document.addEventListener('keydown', function (e) {
+      // Cegah Ctrl+U (View Page Source)
+      if (e.ctrlKey && e.key.toLowerCase() === 'u') {
+        e.preventDefault();
+      }
+
+      // Cegah Ctrl+Shift+I atau F12 (Developer Tools)
+      if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') || e.key === 'F12') {
+        e.preventDefault();
+      }
+    });
+  </script>
+
 </body>
 
 </html>

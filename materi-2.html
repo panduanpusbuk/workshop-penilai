@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Materi 2 – Penyajian Pembelajaran Mendalam</title>
+  <title>Materi 2 – Penyajian Pembelajaran</title>
   <link rel="stylesheet" href="materi.css">
 </head>
 
@@ -37,7 +37,7 @@
       <div class="perintah">Video Materi</div>
       <video id="video2" width="640" controls oncontextmenu="return false" disablePictureInPicture
         controlsList="nodownload noremoteplayback noplaybackrate">
-        <source src="materi2.mp4" type="video/mp4" /><!--- MASUKKAN VIDEO DI SINI-->
+        <source src="#" type="video/mp4" /><!--- MASUKKAN VIDEO DI SINI-->
         Browser Anda tidak mendukung tag video.
       </video>
 
@@ -62,13 +62,14 @@
           </svg>Materi Berikutnya</button>
       </div>
       <div class="bantuan">
-        <h4>Butuh bantuan? Silakan kirim pesan Whatsapp ke 0813-9328-1701 (Talitha)</h4>
+        <h4>Butuh bantuan? Silakan kirim pesan Whatsapp ke 0888-8888-8888</h4>
       </div>
     </div><!--END OF MATERI CONTAINER-->
   </main>
 
   <!-- JavaScript ANTI-SKIP -->
   <script>
+    const video1 = document.getElementById('video1');
     const video2 = document.getElementById('video2');
 
     // ANTI-SEEK
@@ -113,20 +114,12 @@
       if (!user) {
         alert("Silakan login terlebih dahulu.");
         window.location.href = "index.html";
-        return;
-      }
-
-      const isAdmin = adminEmails.includes(user.email);
-
-      if (isAdmin) {
-        console.log("Admin login:", user.email);
-        return; // admin bebas tanpa cek progress
-      }
-
-      const materi1Done = localStorage.getItem('materi1_selesai');
-      if (materi1Done !== 'true') {
-        alert("Anda harus menyelesaikan Materi 1 terlebih dahulu.");
-        window.location.href = "materi-1.html";
+      } else {
+        const materi1Done = localStorage.getItem('materi1_selesai');
+        if (materi1Done !== 'true') {
+          alert("Anda harus menyelesaikan Materi 1 terlebih dahulu.");
+          window.location.href = "materi-1.html";
+        }
       }
     });
 
