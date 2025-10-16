@@ -99,6 +99,25 @@
         return;
       }
 
+      const isAdmin = adminEmails.includes(user.email);
+
+    if (isAdmin) {
+      console.log("Admin login, semua materi terbuka.");
+      // Unlock semua materi
+      for (let i = 1; i <= 8; i++) {
+        localStorage.setItem(`materi${i}_selesai`, 'true');
+      }
+    }
+
+    // Lanjutkan logika tampilan materi seperti biasa
+    for (let i = 1; i <= 8; i++) {
+      const next = i + 1;
+      const tombol = document.getElementById(`materi${next}`);
+      if (tombol && localStorage.getItem(`materi${i}_selesai`) === 'true') {
+        tombol.classList.remove('disabled');
+      }
+    }
+
       // Admin sak penake dewe
       if (adminEmails.includes(user.email)) {
         console.log("Admin login:", user.email);
