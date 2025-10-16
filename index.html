@@ -85,7 +85,26 @@
         }
       }
     });
+
+    import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const emailBtn = document.getElementById("loginEmailBtn");
+    emailBtn.addEventListener("click", () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((result) => {
+          window.location.href = "dashboard.html";
+        })
+        .catch((error) => {
+          alert("Login gagal: " + error.message);
+        });
+    });
+
   </script>
+
+
   <!-- AKHIR DARI KHUSUS SCRIPT -->
 </body>
 
