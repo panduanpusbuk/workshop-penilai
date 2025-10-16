@@ -113,12 +113,20 @@
       if (!user) {
         alert("Silakan login terlebih dahulu.");
         window.location.href = "index.html";
-      } else {
-        const materi1Done = localStorage.getItem('materi1_selesai');
-        if (materi1Done !== 'true') {
-          alert("Anda harus menyelesaikan Materi 1 terlebih dahulu.");
-          window.location.href = "materi-1.html";
-        }
+        return;
+      }
+
+      const isAdmin = adminEmails.includes(user.email);
+
+      if (isAdmin) {
+        console.log("Admin login:", user.email);
+        return; // admin bebas tanpa cek progress
+      }
+
+      const materi1Done = localStorage.getItem('materi1_selesai');
+      if (materi1Done !== 'true') {
+        alert("Anda harus menyelesaikan Materi 1 terlebih dahulu.");
+        window.location.href = "materi-1.html";
       }
     });
 
