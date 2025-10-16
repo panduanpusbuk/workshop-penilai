@@ -6,24 +6,24 @@
 }
 
 a {
-    text-decoration: none;
-    color: #000;
+  text-decoration: none;
+  color: #000;
 }
 
 a:hover {
-    color: #4680ff;
+  color: #4680ff;
 }
 
 body {
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
-      color: #1d1d1f;
-      background-image: url('bg1.jpg');
-      background-size: cover;
-      background-repeat: no-repeat; 
-      background-position: center;   
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #1d1d1f;
+  background-image: url('bg1.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .container {
@@ -50,20 +50,20 @@ footer {
 }
 
 .kaki {
-    background-color: #dddddd;
-    color: #6e6e73;
-    min-height: 7vh;
-    display: flex;
-    align-items: center;
-    padding-left: 3vh;
+  background-color: #dddddd;
+  color: #6e6e73;
+  min-height: 7vh;
+  display: flex;
+  align-items: center;
+  padding-left: 3vh;
 }
 
 .bantuan {
-    min-height: 5vh;
-    border-top: solid 1px #252525;
-    display: flex;
-    align-items: center;
-    padding-left: 3vh;
+  min-height: 5vh;
+  border-top: solid 1px #252525;
+  display: flex;
+  align-items: center;
+  padding-left: 3vh;
 }
 
 /* Header Judul */
@@ -84,7 +84,7 @@ h2 {
 video {
   max-width: 100%;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 24px;
 }
 
@@ -150,7 +150,7 @@ ul li a:hover {
 }
 
 /* Printilan Login */
- .login-container {
+.login-container {
   width: 100%;
   max-width: 360px;
   text-align: center;
@@ -158,57 +158,92 @@ ul li a:hover {
   border: 1px solid #d2d2d7;
   border-radius: 8px;
   background-color: #fbfbfb;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
 
 .login-container h2 {
-      font-size: 20pt;
-      font-weight: 400;
-      margin-bottom: 24px;
-      text-align: center;
-    }
+  font-size: 20pt;
+  font-weight: 400;
+  margin-bottom: 24px;
+  text-align: center;
+}
 
 .login-container label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-    }
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
 
 .login-container input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 20px;
-      border: 1px solid #d2d2d7;
-      border-radius: 8px;
-      font-size: 16px;
-      background-color: #f9f9f9;
-    }
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #d2d2d7;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+}
 
 .login-container button {
-      width: 100%;
-      padding: 12px;
-      background-color: #0071e3;
-      color: white;
-      font-size: 16px;
-      font-weight: 500;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
+  width: 100%;
+  padding: 12px;
+  background-color: #0071e3;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
 
 .login-container button:hover {
-      background-color: #005bb5;
-    }
+  background-color: #005bb5;
+}
 
 .note {
-      text-align: center;
-      margin-top: 16px;
-      font-size: 14px;
-      color: #6e6e73;
-    }
+  text-align: center;
+  margin-top: 16px;
+  font-size: 14px;
+  color: #6e6e73;
+}
 
-    /* NAVBAR */
+#loginEmailBtn {
+  background-color: #0071e3;
+  /* Biru khas Apple */
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#loginEmailBtn:hover {
+  background-color: #0077ed;
+  /* Biru sedikit lebih terang */
+  transform: translateY(-2px);
+  /* Efek angkat halus */
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+#loginEmailBtn:active {
+  transform: translateY(0);
+  /* Efek klik */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+#loginEmailBtn:disabled {
+  background-color: #d0d0d0;
+  color: #888;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* NAVBAR */
 .navbar {
   display: flex;
   align-items: center;
@@ -219,10 +254,12 @@ ul li a:hover {
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.nav-left, .nav-center, .nav-right {
+.nav-left,
+.nav-center,
+.nav-right {
   display: flex;
   align-items: center;
 }
