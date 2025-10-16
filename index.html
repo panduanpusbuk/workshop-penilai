@@ -33,77 +33,74 @@
 
   <!-- KHUSUS SCRIPT. HATI-HATI. KHUSUS SCRIPT -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getAuth,
+    signInWithPopup,
+    GoogleAuthProvider,
+    onAuthStateChanged,
+    signOut,
+    signInWithEmailAndPassword
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
-      authDomain: "workshop-penilaian.firebaseapp.com",
-      projectId: "workshop-penilaian",
-      storageBucket: "workshop-penilaian.firebasestorage.app",
-      messagingSenderId: "913053975087",
-      appId: "1:913053975087:web:c8d89b4f8ea5316bea3cda",
-      measurementId: "G-TWFS28040R"
-    };
+  // Konfigurasi Akun Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
+    authDomain: "workshop-penilaian.firebaseapp.com",
+    projectId: "workshop-penilaian",
+    storageBucket: "workshop-penilaian.firebasestorage.app",
+    messagingSenderId: "913053975087",
+    appId: "1:913053975087:web:c8d89b4f8ea5316bea3cda",
+    measurementId: "G-TWFS28040R"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
-    provider.setCustomParameters({
-      prompt: 'select_account'
-    });
+  // Inisialisasi Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: 'select_account' });
 
-    const allowedEmails = [
-      "alfianfaizmi@gmail.com",
-      "faiz.alfian@kemdikbud.go.id",
-      "perbukuan2.kemendikbud@gmail.com",
-      "perbukuan3.kemendikbud@gmail.com",
-      "dicky.susanto@calvin.ac.id",
-      "dr.lacak@gmail.com",
-      "alfanalff@gmail.com",
-      "email2@example.com"
-      // TAMBAHKAN EMAIL DI SINI
-    ];
+  // Daftar Akun yang Diizinkan
+  let allowedEmails = [];
+  fetch("orangterpilih.json")
+    .then(response => response.json())
+    .then(data => {
+      allowedEmails = data.emails.map(email => email.toLowerCase());
+      console.log("Daftar peserta berhasil dimuat:", allowedEmails);
+    })
+    .catch(err => console.error("Gagal memuat daftar peserta:", err));
 
-    // LOGIN DENGAN GOOGLE
-    document.getElementById("loginBtn").addEventListener("click", () => {
+  // Login dengan Google
+  const loginBtn = document.getElementById("loginBtn");
+  loginBtn.addEventListener("click", () => {
     signInWithPopup(auth, provider)
-      .then((result) => {
-        const user = result.user;
-        if (allowedEmails.includes(user.email)) {
-          window.location.href = "dashboard.html";
-        } else {
-          alert("Akses ditolak. Bapak/Ibu bukan peserta workshop.");
-          signOut(auth);
-        }
-      })
-      .catch((error) => {
-        alert("Login gagal: " + error.message);
-      });
+      .catch(error => alert("Login gagal: " + error.message));
   });
 
-    // LOGIN DENGAN EMAIL/PASSWORD
-  document.getElementById("loginEmailBtn").addEventListener("click", () => {
-    const email = document.getElementById("email").value.trim();
+  // Login dengan Email & Password
+  const emailBtn = document.getElementById("loginEmailBtn");
+  emailBtn.addEventListener("click", () => {
+    const email = document.getElementById("email").value.toLowerCase();
     const password = document.getElementById("password").value;
 
     signInWithEmailAndPassword(auth, email, password)
-      .then((result) => {
-        const user = result.user;
-        if (allowedEmails.includes(user.email)) {
-          window.location.href = "dashboard.html";
-        } else {
-          alert("Akses ditolak. Bapak/Ibu bukan peserta workshop.");
-          signOut(auth);
-        }
-      })
-      .catch((error) => {
-        alert("Login gagal: " + error.message);
-      });
+      .catch(error => alert("Login gagal: " + error.message));
   });
 
-  </script>
+  // Cek apakah peserta terdaftar atau bukan
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const userEmail = user.email.toLowerCase();
 
+      if (allowedEmails.includes(userEmail)) {
+        window.location.href = "dashboard.html";
+      } else {
+        alert("Akses ditolak. Bapak/Ibu bukan peserta workshop.");
+        signOut(auth);
+      }
+    }
+  });
+</script>
 
   <!-- AKHIR DARI KHUSUS SCRIPT -->
 </body>
