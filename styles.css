@@ -184,23 +184,6 @@ ul li a:hover {
   background-color: #f9f9f9;
 }
 
-.login-container button {
-  width: 100%;
-  padding: 12px;
-  background-color: #0071e3;
-  color: white;
-  font-size: 16px;
-  font-weight: 500;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.login-container button:hover {
-  background-color: #005bb5;
-}
-
 .note {
   text-align: center;
   margin-top: 16px;
