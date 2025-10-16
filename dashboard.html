@@ -28,8 +28,6 @@
         window.location.href = "index.html";
       });
     });
-
-    document.getElementById("loading-screen").style.display = "none";
   </script>
   <!-- AKHIR DARI KHUSUS SCRIPT -->
 
@@ -100,6 +98,18 @@
       <p>Copyright © 2025 Faiz Alfian. All rights reserved.</p>
     </footer>
   </div>
+
+  <script>
+  window.addEventListener("load", () => {
+  const loading = document.getElementById("loading-screen");
+  if (loading) {
+    loading.style.opacity = "0";
+    setTimeout(() => loading.style.display = "none", 500);
+  }
+});
+
+</script>
+
 
 </body>
 

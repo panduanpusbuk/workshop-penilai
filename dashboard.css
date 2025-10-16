@@ -168,6 +168,13 @@ main {
   margin: 0 auto;
 }
 
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+
 /* Responsive */
 @media (max-width: 600px) {
   .nav-center {
