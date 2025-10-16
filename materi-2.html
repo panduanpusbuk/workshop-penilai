@@ -3,17 +3,15 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Materi 2 – Judul Materi 2</title>
+  <title>Materi 2</title>
   <link rel="stylesheet" href="materi.css">
 </head>
 
 <body>
-  <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-left">
       <h1>Workshop Penilai BTP: Materi 2</h1>
       <a href="dashboard.html">Beranda</a>
-      <a href="tentang.html">Tentang Laman Ini</a>
     </div>
     <div class="nav-right">
       <a href="#" id="logoutBtn" style="color: #e90000">Logout</a>
@@ -22,34 +20,15 @@
 
   <main class="content-wrapper">
     <div class="container">
-      <h2>Judul Materi 2</h2>
-      <div class="perintah">Sebelum Memulai:</div>
-      <div class="petunjuk">
-        <ol>
-          <li>Video tidak dapat dilewati tetapi masih dapat dijeda.</li>
-          <li>Gunakan tombol jeda untuk mencatat bagian yang perlu dicatat.</li>
-          <li>Video tidak dapat diulang dari bagian yang diinginkan tetapi dapat diputar kembali dari awal.</li>
-          <li>Apabila keluar di tengah-tengah video materi, Bapak/Ibu harus mengulang kembali ke detik pertama.</li>
-          <li>Tunggu sampai videonya benar-benar selesai/berhenti dengan sendirinya.</li>
-          <li>Setelah video selesai, akses ke materi berikutnya akan terbuka.</li>
-        </ol>
-      </div>
-
-      <!-- Video -->
-      <div class="perintah">Video Materi</div>
+      <h2>Materi 2 – Judul Materi</h2>
       <video id="video2" width="640" controls oncontextmenu="return false" disablePictureInPicture
         controlsList="nodownload noremoteplayback noplaybackrate">
         <source src="materi2.mp4" type="video/mp4" />
-        Browser Anda tidak mendukung tag video.
       </video>
 
       <div class="btn-container">
-        <button onclick="window.location.href='dashboard.html'" class="btnHome">Daftar Materi</button>
+        <button onclick="window.location.href='materi-1.html'" class="btnPrev">Materi Sebelumnya</button>
         <button onclick="window.location.href='materi-3.html'" class="btnNext">Materi Berikutnya</button>
-      </div>
-
-      <div class="bantuan">
-        <h4>Butuh bantuan? Silakan kirim pesan Whatsapp ke 0813-9328-1701 (Talitha)</h4>
       </div>
     </div>
   </main>
@@ -57,7 +36,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
@@ -72,18 +51,12 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-
     const adminEmails = [
       "alfianfaizmi@gmail.com",
       "faiz.alfian@kemdikbud.go.id"
     ];
 
     const video2 = document.getElementById('video2');
-
-    // Logout
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      auth.signOut().then(() => window.location.href = "index.html");
-    });
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
@@ -92,56 +65,46 @@
         return;
       }
 
-      const userDocRef = doc(db, "users", user.uid);
-      const userDocSnap = await getDoc(userDocRef);
-
-      if (!userDocSnap.exists()) {
-        alert("Dokumen user tidak ditemukan. Silakan mulai dari Materi 1.");
-        window.location.href = "materi-1.html";
-        return;
-      }
-
-      const progres = userDocSnap.data();
       const isAdmin = adminEmails.includes(user.email);
 
-      // Admin bisa langsung lanjut
-      if (isAdmin) {
-        video2.controls = true;
-        return;
-      }
+      const userDocRef = doc(db, "users", user.uid);
+      const userDocSnap = await getDoc(userDocRef);
+      const progres = userDocSnap.data();
 
-      // Non-admin harus menyelesaikan materi-1 dulu
-      if (!progres.materi1) {
+      if (!isAdmin && !progres.materi1) {
         alert("Anda harus menyelesaikan Materi 1 terlebih dahulu.");
         window.location.href = "materi-1.html";
         return;
       }
 
-      // Anti-skip peserta non-admin
-      let lastTime = 0;
-      video2.addEventListener('timeupdate', function () {
-        if (Math.abs(video2.currentTime - lastTime) > 0.3) {
-          video2.currentTime = lastTime;
-        } else {
-          lastTime = video2.currentTime;
-        }
-      });
+      if (isAdmin) {
+        video2.controls = true;
+      }
 
-      window.addEventListener('keydown', function (e) {
-        if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) {
-          e.preventDefault();
-        }
-      });
+      // Anti-skip peserta
+      if (!isAdmin) {
+        let lastTime = 0;
+        video2.addEventListener('timeupdate', function () {
+          if (Math.abs(video2.currentTime - lastTime) > 0.3) {
+            video2.currentTime = lastTime;
+          } else {
+            lastTime = video2.currentTime;
+          }
+        });
+
+        window.addEventListener('keydown', function (e) {
+          if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) e.preventDefault();
+        });
+      }
     });
 
-    // Simpan progres materi-2 saat video selesai
     video2.addEventListener('ended', async () => {
       const user = auth.currentUser;
       if (!user) return;
-      await updateDoc(doc(db, "users", user.uid), { materi2: true });
+      const userDocRef = doc(db, "users", user.uid);
+      await updateDoc(userDocRef, { materi2: true });
       alert("Materi 2 selesai! Anda bisa lanjut ke materi 3.");
     });
-
   </script>
 </body>
 </html>
