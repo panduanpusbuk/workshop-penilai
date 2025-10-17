@@ -66,7 +66,7 @@
     </div>
   </main>
 
-   <script type="module">
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
       getAuth,
@@ -117,8 +117,10 @@
         return;
       }
 
-      const isAdmin = adminEmails.includes(user.email);
+      //Tampilkan username di pojok kanan atas
+      document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
 
+      const isAdmin = adminEmails.includes(user.email);
       const userDocRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userDocRef);
 
