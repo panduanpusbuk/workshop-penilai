@@ -55,31 +55,21 @@
   </div><!--END OF MATERI CONTAINER-->
   </main>
 
-   <!-- JavaScript ANTI-SKIP -->
-<script>
-    const video7 = document.getElementById('video7');
-
-    // Mencegah user seek/maju-mundur di video7
-    let lastTime = 0;
-    video7.addEventListener('timeupdate', function () {
-      if (Math.abs(video7.currentTime - lastTime) > 0.3) {
-        video7.currentTime = lastTime;
-      } else {
-        lastTime = video7.currentTime;
-      }
-    });
-
-    // Nonaktifkan tombol keyboard skip (opsional)
-    window.addEventListener('keydown', function (e) {
-      if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) {
-        e.preventDefault();
-      }
-    });
-</script>
-
-  <script type="module">
+   <!-- JavaScript -->
+<script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc,
+      updateDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     // Konfigurasi Firebase
     const firebaseConfig = {
@@ -92,12 +82,25 @@
       measurementId: "G-TWFS28040R"
     };
 
-    // Inisialisasi Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    // Cek login & progress materi 6
-    onAuthStateChanged(auth, (user) => {
+    const adminEmails = [
+      "alfianfaizmi@gmail.com",
+      "faiz.alfian@kemdikbud.go.id"
+    ];
+
+    const video7 = document.getElementById('video7'); //INI PERLU DIUBAH
+
+    // Logout button
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = "index.html";
+    });
+
+    // Cek login 
+    onAuthStateChanged(auth, async (user) => {
       if (!user) {
         alert("Silakan login terlebih dahulu.");
         window.location.href = "index.html";
@@ -106,46 +109,60 @@
 
       const isAdmin = adminEmails.includes(user.email);
 
-      if (isAdmin) {
+      const userDocRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userDocRef);
+
+      if (!userSnap.exists()) {
+        // buat dokumen default jika belum ada
+        await setDoc(userDocRef, {
+          materi1_selesai: false,
+          materi2_selesai: false,
+          materi3_selesai: false,
+          materi4_selesai: false,
+          materi5_selesai: false,
+          materi6_selesai: false,
+          materi7_selesai: false,
+          materi8_selesai: false,
+        });
+      }
+
+      const data = (await getDoc(userDocRef)).data();
+
+      //Cek progres materi sebelumnya | PERLU DIUBAH
+      if (!isAdmin) {
+        if (!data.materi6_selesai) {
+          alert("Anda harus menyelesaikan Materi 6 terlebih dahulu.");
+          window.location.href = "dashboard.html";
+          return;
+        }
+      } else {
         console.log("Admin login:", user.email);
-        return; // admin bebas
+        video7.controls = true;
       }
 
-      const materi6Done = localStorage.getItem('materi6_selesai');
-      if (materi6Done !== 'true') {
-        alert("Anda harus menyelesaikan Materi 6 terlebih dahulu.");
-        window.location.href = "dashboard.html";
+      // Anti-skip untuk peserta non-admin | PERLU DIUBAH
+      if (!isAdmin) {
+        let lastTime = 0;
+        video7.addEventListener('timeupdate', () => {
+          if (Math.abs(video7.currentTime - lastTime) > 0.3) {
+            video7.currentTime = lastTime;
+          } else {
+            lastTime = video7.currentTime;
+          }
+        });
+        window.addEventListener('keydown', (e) => {
+          if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) {
+            e.preventDefault();
+          }
+        });
       }
-    });
 
-    // Deteksi video selesai
-    const video = document.getElementById('video7');
-    video.addEventListener('ended', () => {
-      localStorage.setItem('materi7_selesai', 'true');
-      alert("Materi 7 selesai! Anda bisa lanjut ke materi 8.");
-
+      // Simpan progres materi 6 ketika video selesai | PERLU DIUBAH
+      video7.addEventListener('ended', async () => {
+        await updateDoc(userDocRef, { materi7_selesai: true });
+        alert("Materi 7 selesai! Anda bisa lanjut ke Materi 8.");
+      });
     });
   </script>
-    <!-- CEGAH KLIK KANAN -->
-  <script>
-  document.addEventListener('contextmenu', function (e) {
-    e.preventDefault();
-  });
-</script>
-
-<!-- CEGAH SHORTCUT VIEW PAGE SOURCE -->
- <script>
-  document.addEventListener('keydown', function (e) {
-    // Cegah Ctrl+U (View Page Source)
-    if (e.ctrlKey && e.key.toLowerCase() === 'u') {
-      e.preventDefault();
-    }
-
-    // Cegah Ctrl+Shift+I atau F12 (Developer Tools)
-    if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') || e.key === 'F12') {
-      e.preventDefault();
-    }
-  });
-</script>
 </body>
 </html>
