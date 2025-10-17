@@ -81,7 +81,6 @@
       updateDoc
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    // Konfigurasi Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
       authDomain: "workshop-penilaian.firebaseapp.com",
@@ -95,85 +94,69 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+    const adminEmails = ["alfianfaizmi@gmail.com","faiz.alfian@kemdikbud.go.id"];
+    const video2 = document.getElementById("video2");
+    const nextBtn = document.getElementById("nextBtn");
+    let manualLogout = false;
 
-    const adminEmails = [
-      "alfianfaizmi@gmail.com",
-      "faiz.alfian@kemdikbud.go.id"
-    ];
-
-    const video2 = document.getElementById('video2');
-
-     // Tampilkan nama user
-      document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
-
-    // Logout button
+    // Logout
     document.getElementById("logoutBtn").addEventListener("click", async () => {
+      manualLogout = true;
       await signOut(auth);
       window.location.href = "index.html";
     });
 
-    // Cek login & progres Materi 1
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        alert("Silakan login terlebih dahulu.");
+        if (!manualLogout) alert("Silakan login terlebih dahulu.");
         window.location.href = "index.html";
         return;
       }
 
-      const isAdmin = adminEmails.includes(user.email);
+      // Tampilkan nama user
+      document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
 
+      const isAdmin = adminEmails.includes(user.email);
       const userDocRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userDocRef);
 
-      if (!userSnap.exists()) {
-        // buat dokumen default jika belum ada
-        await setDoc(userDocRef, {
-          materi1_selesai: false,
-          materi2_selesai: false,
-          materi3_selesai: false,
-          materi4_selesai: false,
-          materi5_selesai: false,
-          materi6_selesai: false,
-          materi7_selesai: false,
-          materi8_selesai: false,
-        });
-      }
+      let progress = {};
+      if (userSnap.exists()) progress = userSnap.data();
 
-      const data = (await getDoc(userDocRef)).data();
-
-      if (!isAdmin) {
-        if (!data.materi1_selesai) {
-          alert("Anda harus menyelesaikan Materi 1 terlebih dahulu.");
-          window.location.href = "materi-1.html";
-          return;
-        }
+      // Admin bisa langsung lanjut
+      if (isAdmin) {
+        nextBtn.disabled = false;
       } else {
-        console.log("Admin login:", user.email);
-        video2.controls = true;
+        nextBtn.disabled = !progress.materi1;
       }
 
-      // Anti-skip untuk peserta non-admin
+      // Anti-skip peserta
       if (!isAdmin) {
         let lastTime = 0;
-        video2.addEventListener('timeupdate', () => {
+        video2.addEventListener("timeupdate", function () {
           if (Math.abs(video2.currentTime - lastTime) > 0.3) {
             video2.currentTime = lastTime;
-          } else {
-            lastTime = video2.currentTime;
-          }
+          } else lastTime = video2.currentTime;
         });
-        window.addEventListener('keydown', (e) => {
-          if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) {
-            e.preventDefault();
-          }
+
+        window.addEventListener("keydown", (e) => {
+          if (["ArrowLeft", "ArrowRight", " ", "k", "j", "l"].includes(e.key)) e.preventDefault();
         });
       }
+    });
 
-      // Simpan progres materi 2 ketika video selesai
-      video2.addEventListener('ended', async () => {
-        await updateDoc(userDocRef, { materi2_selesai: true });
-        alert("Materi 2 selesai! Anda bisa lanjut ke Materi 3.");
-      });
+    video2.addEventListener("ended", async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+      const userDocRef = doc(db, "users", user.uid);
+      const snap = await getDoc(userDocRef);
+      if (snap.exists()) {
+        await updateDoc(userDocRef, { materi2: true });
+      } else {
+        await setDoc(userDocRef, { materi2: true });
+      }
+      alert("Materi 2 selesai! Anda bisa lanjut ke materi 3.");
+      nextBtn.disabled = false;
     });
   </script>
 </body>

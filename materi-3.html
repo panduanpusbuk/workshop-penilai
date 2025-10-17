@@ -64,10 +64,20 @@
     </div>
   </main>
 
-  <script type="module">
+<script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc,
+      updateDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
@@ -82,45 +92,49 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const adminEmails = ["alfianfaizmi@gmail.com", "faiz.alfian@kemdikbud.go.id"];
-    const video = document.getElementById("video3");
+    const adminEmails = ["alfianfaizmi@gmail.com","faiz.alfian@kemdikbud.go.id"];
+    const video3 = document.getElementById("video3");
     const nextBtn = document.getElementById("nextBtn");
+    let manualLogout = false;
 
+    // Logout
     document.getElementById("logoutBtn").addEventListener("click", async () => {
+      manualLogout = true;
       await signOut(auth);
       window.location.href = "index.html";
     });
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        alert("Silakan login terlebih dahulu.");
+        if (!manualLogout) alert("Silakan login terlebih dahulu.");
         window.location.href = "index.html";
         return;
       }
 
+      // Tampilkan nama user
       document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
 
       const isAdmin = adminEmails.includes(user.email);
       const userDocRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userDocRef);
+
       let progress = {};
       if (userSnap.exists()) progress = userSnap.data();
 
-      if (!isAdmin && !progress.materi2) {
-        alert("Anda harus menyelesaikan Materi 2 terlebih dahulu.");
-        window.location.href = "materi-2.html";
-        return;
+      // Admin bisa langsung lanjut
+      if (isAdmin) {
+        nextBtn.disabled = false;
+      } else {
+        nextBtn.disabled = !progress.materi1;
       }
 
-      if (isAdmin) nextBtn.disabled = false;
-      else nextBtn.disabled = !!progress.materi3;
-
+      // Anti-skip peserta
       if (!isAdmin) {
         let lastTime = 0;
-        video.addEventListener("timeupdate", function () {
-          if (Math.abs(video.currentTime - lastTime) > 0.3) {
-            video.currentTime = lastTime;
-          } else lastTime = video.currentTime;
+        video1.addEventListener("timeupdate", function () {
+          if (Math.abs(video3.currentTime - lastTime) > 0.3) {
+            video3.currentTime = lastTime;
+          } else lastTime = video3.currentTime;
         });
 
         window.addEventListener("keydown", (e) => {
@@ -129,7 +143,7 @@
       }
     });
 
-    video.addEventListener("ended", async () => {
+    video3.addEventListener("ended", async () => {
       const user = auth.currentUser;
       if (!user) return;
       const userDocRef = doc(db, "users", user.uid);
