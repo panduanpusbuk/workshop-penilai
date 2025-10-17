@@ -26,7 +26,7 @@
     </div>
   </nav>
   <div class="sambutan">
-    <h2>Hai,<span id="userNameDisplay" style="margin-right:10px;"></span></h2>
+    <h2 id="welcomeMessage">Halo, ...</h2>
   </div>
   <div class="container">
     <main>
@@ -92,6 +92,10 @@
 
         // Tampilkan nama user
         document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
+
+        // Welcome text
+        document.getElementById("welcomeMessage").textContent =
+          `Halo, ${user.displayName || user.email}`;
 
         // Sembunyikan loading screen perlahan
         loading.style.opacity = "0";
