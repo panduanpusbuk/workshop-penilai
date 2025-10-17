@@ -56,7 +56,7 @@
     </div>
   </main>
 
-  <script type="module">
+   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
       getAuth,
@@ -71,6 +71,7 @@
       updateDoc
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+    // Konfigurasi Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
       authDomain: "workshop-penilaian.firebaseapp.com",
@@ -84,62 +85,70 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const adminEmails = ["alfianfaizmi@gmail.com","faiz.alfian@kemdikbud.go.id"];
-    const video1 = document.getElementById("video1");
-    const nextBtn = document.getElementById("nextBtn");
-    let manualLogout = false;
 
-    // Logout
+    const adminEmails = [
+      "alfianfaizmi@gmail.com",
+      "faiz.alfian@kemdikbud.go.id"
+    ];
+
+    const video1 = document.getElementById('video1');
+
+    // Logout button
     document.getElementById("logoutBtn").addEventListener("click", async () => {
-      manualLogout = true;
       await signOut(auth);
       window.location.href = "index.html";
     });
 
+    // Cek login
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        if (!manualLogout) alert("Silakan login terlebih dahulu.");
+        alert("Silakan login terlebih dahulu.");
         window.location.href = "index.html";
         return;
       }
 
-      // Tampilkan nama user
-      document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
-
       const isAdmin = adminEmails.includes(user.email);
+
       const userDocRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userDocRef);
 
-      let progress = {};
-      if (userSnap.exists()) progress = userSnap.data();
-
-      // Admin bisa langsung lanjut
-      if (isAdmin) {
-        nextBtn.disabled = false;
-      } else {
-        nextBtn.disabled = !progress.materi1;
+      if (!userSnap.exists()) {
+        // buat dokumen default jika belum ada
+        await setDoc(userDocRef, {
+          materi1_selesai: false,
+          materi2_selesai: false,
+          materi3_selesai: false,
+          // dst untuk materi 4-8
+        });
       }
 
-      // Anti-skip peserta
+      const data = (await getDoc(userDocRef)).data();
+
+      // Anti-skip untuk peserta non-admin
       if (!isAdmin) {
         let lastTime = 0;
-        video1.addEventListener("timeupdate", function () {
+        video1.addEventListener('timeupdate', () => {
           if (Math.abs(video1.currentTime - lastTime) > 0.3) {
             video1.currentTime = lastTime;
-          } else lastTime = video1.currentTime;
+          } else {
+            lastTime = video1.currentTime;
+          }
         });
-
-        window.addEventListener("keydown", (e) => {
-          if (["ArrowLeft", "ArrowRight", " ", "k", "j", "l"].includes(e.key)) e.preventDefault();
+        window.addEventListener('keydown', (e) => {
+          if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) {
+            e.preventDefault();
+          }
         });
       }
-    });
 
-    video1.addEventListener('ended', async () => {
+      // Simpan progres materi 1 ketika video selesai
+      video1.addEventListener('ended', async () => {
         await updateDoc(userDocRef, { materi1_selesai: true });
         alert("Materi 1 selesai! Anda bisa lanjut ke Materi 2.");
       });
+    });
   </script>
+
 </body>
 
 </html>
