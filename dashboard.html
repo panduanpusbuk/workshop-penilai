@@ -20,6 +20,7 @@
 
   <div class="nav-right">
     <a href="#">Tentang Laman Ini</a>
+    <span id="userNameDisplay" style="margin-right:10px;"></span>
     <a href="#" id="logoutBtn" style="color: #e90000">Logout</a>
   </div>
 </nav>
@@ -100,6 +101,10 @@
         window.location.href = "index.html";
       });
     });
+
+    //Tampilkan username di pojok kanan atas
+    document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
+    
   </script>
 <!-- AKHIR DARI KHUSUS SCRIPT -->
 
