@@ -146,7 +146,17 @@
 
       const data = (await getDoc(userDocRef)).data();
 
-      
+      //Cek progres materi sebelumnya | PERLU DIUBAH
+      if (!isAdmin) {
+        if (!data.materi7_selesai) {
+          alert("Anda harus menyelesaikan Materi 7 terlebih dahulu.");
+          window.location.href = "dashboard.html";
+          return;
+        }
+      } else {
+        console.log("Admin login:", user.email);
+        video7.controls = true;
+      }
 
       // Simpan progres materi 9 ketika selesai | PERLU DIUBAH
       video4.addEventListener('ended', async () => {
