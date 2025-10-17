@@ -37,7 +37,7 @@
       <!-- Video -->
       <video id="video5" width="640" controls oncontextmenu="return false" disablePictureInPicture
         controlsList="nodownload noremoteplayback noplaybackrate">
-        <source src="###" type="video/mp4" />
+        <source src="materi5.mp4" type="video/mp4" />
         Browser Anda tidak mendukung tag video.
       </video>
 
@@ -67,31 +67,21 @@
     </div><!--END OF MATERI CONTAINER-->
   </main>
 
-  <!-- JavaScript ANTI-SKIP -->
-  <script>
-    const video5 = document.getElementById('video5');
-
-    // Mencegah user seek/maju-mundur di video5
-    let lastTime = 0;
-    video5.addEventListener('timeupdate', function () {
-      if (Math.abs(video5.currentTime - lastTime) > 0.3) {
-        video5.currentTime = lastTime;
-      } else {
-        lastTime = video5.currentTime;
-      }
-    });
-
-    // Nonaktifkan tombol keyboard skip (opsional)
-    window.addEventListener('keydown', function (e) {
-      if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) {
-        e.preventDefault();
-      }
-    });
-  </script>
-
-  <script type="module">
+  <!-- JavaScript -->
+    <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc,
+      updateDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     // Konfigurasi Firebase
     const firebaseConfig = {
@@ -104,12 +94,25 @@
       measurementId: "G-TWFS28040R"
     };
 
-    // Inisialisasi Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    // Cek login & progress materi 4
-    onAuthStateChanged(auth, (user) => {
+    const adminEmails = [
+      "alfianfaizmi@gmail.com",
+      "faiz.alfian@kemdikbud.go.id"
+    ];
+
+    const video5 = document.getElementById('video5'); //INI PERLU DIUBAH
+
+    // Logout button
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = "index.html";
+    });
+
+    // Cek login 
+    onAuthStateChanged(auth, async (user) => {
       if (!user) {
         alert("Silakan login terlebih dahulu.");
         window.location.href = "index.html";
@@ -118,45 +121,59 @@
 
       const isAdmin = adminEmails.includes(user.email);
 
-      if (isAdmin) {
+      const userDocRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userDocRef);
+
+      if (!userSnap.exists()) {
+        // buat dokumen default jika belum ada
+        await setDoc(userDocRef, {
+          materi1_selesai: false,
+          materi2_selesai: false,
+          materi3_selesai: false,
+          materi4_selesai: false,
+          materi5_selesai: false,
+          materi6_selesai: false,
+          materi7_selesai: false,
+          materi8_selesai: false,
+        });
+      }
+
+      const data = (await getDoc(userDocRef)).data();
+
+      //Cek progres materi sebelumnya | PERLU DIUBAH
+      if (!isAdmin) {
+        if (!data.materi4_selesai) {
+          alert("Anda harus menyelesaikan Materi 4 terlebih dahulu.");
+          window.location.href = "dashboard.html";
+          return;
+        }
+      } else {
         console.log("Admin login:", user.email);
-        return; // admin bebas
+        video2.controls = true;
       }
 
-      const materi4Done = localStorage.getItem('materi4_selesai');
-      if (materi4Done !== 'true') {
-        alert("Anda harus menyelesaikan Materi 4 terlebih dahulu.");
-        window.location.href = "dashboard.html";
-      }
-    });
-
-    // Deteksi video selesai
-    const video = document.getElementById('video5');
-    video.addEventListener('ended', () => {
-      localStorage.setItem('materi5_selesai', 'true');
-      alert("Materi 5 selesai! Anda bisa lanjut ke materi 6.");
-
-    });
-  </script>
-  <!-- CEGAH KLIK KANAN -->
-  <script>
-    document.addEventListener('contextmenu', function (e) {
-      e.preventDefault();
-    });
-  </script>
-
-  <!-- CEGAH SHORTCUT VIEW PAGE SOURCE -->
-  <script>
-    document.addEventListener('keydown', function (e) {
-      // Cegah Ctrl+U (View Page Source)
-      if (e.ctrlKey && e.key.toLowerCase() === 'u') {
-        e.preventDefault();
+      // Anti-skip untuk peserta non-admin | PERLU DIUBAH
+      if (!isAdmin) {
+        let lastTime = 0;
+        video5.addEventListener('timeupdate', () => {
+          if (Math.abs(video5.currentTime - lastTime) > 0.3) {
+            video5.currentTime = lastTime;
+          } else {
+            lastTime = video5.currentTime;
+          }
+        });
+        window.addEventListener('keydown', (e) => {
+          if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) {
+            e.preventDefault();
+          }
+        });
       }
 
-      // Cegah Ctrl+Shift+I atau F12 (Developer Tools)
-      if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') || e.key === 'F12') {
-        e.preventDefault();
-      }
+      // Simpan progres materi 5 ketika video selesai | PERLU DIUBAH
+      video4.addEventListener('ended', async () => {
+        await updateDoc(userDocRef, { materi5_selesai: true });
+        alert("Materi 5 selesai! Anda bisa lanjut ke Materi 6.");
+      });
     });
   </script>
 </body>
