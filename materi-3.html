@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Materi 3 – Judul Materi 3</title>
+  <title>Materi 3 – Kisi-kisi Penyajian Buku beserta Contoh</title>
   <link rel="stylesheet" href="materi.css">
 </head>
 
@@ -22,7 +22,7 @@
 
     <main class="content-wrapper">
     <div class="container">
-      <h2>Penyajian Pembelajaran Mendalam</h2>
+      <h2>Kisi-kisi Penyajian Buku beserta Contoh</h2>
       <div class="perintah">Sebelum Memulai:</div>
       <div class="petunjuk">
         <ol>
@@ -115,8 +115,10 @@
         return;
       }
 
-      const isAdmin = adminEmails.includes(user.email);
+       //Tampilkan username di pojok kanan atas
+      document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
 
+      const isAdmin = adminEmails.includes(user.email);
       const userDocRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userDocRef);
 

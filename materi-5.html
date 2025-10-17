@@ -120,8 +120,10 @@
         return;
       }
 
-      const isAdmin = adminEmails.includes(user.email);
+       //Tampilkan username di pojok kanan atas
+      document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
 
+      const isAdmin = adminEmails.includes(user.email);
       const userDocRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userDocRef);
 

@@ -109,13 +109,16 @@
       window.location.href = "index.html";
     });
 
-    // Cek login & progres Materi 1
+    // Cek login
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
         alert("Silakan login terlebih dahulu.");
         window.location.href = "index.html";
         return;
       }
+
+       //Tampilkan username di pojok kanan atas
+      document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
 
       const isAdmin = adminEmails.includes(user.email);
 
