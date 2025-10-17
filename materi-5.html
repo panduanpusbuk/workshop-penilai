@@ -27,7 +27,7 @@
       <div class="perintah">Sebelum Memulai:</div>
       <div class="petunjuk">
         <ol>
-         <li>Pastikan Bapak/Ibu berada pada waktu luang.</li>
+          <li>Pastikan Bapak/Ibu berada pada waktu luang.</li>
           <li>Video tidak dapat dilewati tetapi masih dapat dijeda.</li>
           <li>Gunakan tombol jeda untuk mencatat bagian yang perlu dicatat.</li>
           <li>Video tidak dapat diulang dari bagian yang diinginkan tetapi dapat diputar kembali dari awal.</li>
@@ -39,7 +39,7 @@
       </div>
 
       <!-- Video -->
-       <div class="perintah">Video Materi (19 menit 47 detik)</div>
+      <div class="perintah">Video Materi (19 menit 47 detik)</div>
       <video id="video5" width="640" controls oncontextmenu="return false" disablePictureInPicture
         controlsList="nodownload noremoteplayback noplaybackrate">
         <source src="materi5.mp4" type="video/mp4" />
@@ -73,7 +73,7 @@
   </main>
 
   <!-- JavaScript -->
-    <script type="module">
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
       getAuth,
@@ -105,6 +105,20 @@
 
     const adminEmails = [
       "alfianfaizmi@gmail.com",
+      "anaratnawulan@gmail.com",
+      "acep.purqon@gmail.com",
+      "asepwahyudn@gmail.com",
+      "mayalestarigf@gmail.com",
+      "oosanwasbrin@gmail.com",
+      "susan_fitriasari@upi.edu",
+      "urip.purwono@gmail.com",
+      "waraskamdi@gmail.com",
+      "zakisuud@gmail.com",
+      "indahwahyu.p.u@um.ac.id",
+      "eva.tuckyta@unpad.ac.id",
+      "dicky.nang@gmail.com",
+      "waraskamdi@gmail.com",
+      "peserta2@example.com",
       "faiz.alfian@kemdikbud.go.id"
     ];
 
@@ -124,7 +138,7 @@
         return;
       }
 
-       //Tampilkan username di pojok kanan atas
+      //Tampilkan username di pojok kanan atas
       document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
 
       const isAdmin = adminEmails.includes(user.email);
