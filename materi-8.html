@@ -1,63 +1,79 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <title>Materi 8 – Aplikasi Penilaian BTP</title>
   <link rel="stylesheet" href="materi.css">
 </head>
+
 <body>
   <nav class="navbar">
-  <div class="nav-left">
-    <h1>Workshop Penilai BTP: Materi 8</h1>
-    <a href="dashboard.html">Beranda</a>
-    <a href="tentang.html">Tentang Laman Ini</a>
-  </div>
+    <div class="nav-left">
+      <h1>Workshop Penilai BTP: Materi 8</h1>
+      <a href="dashboard.html">Beranda</a>
+      <a href="tentang.html">Tentang Laman Ini</a>
+    </div>
 
-  <div class="nav-right">
-    <span id="userNameDisplay" style="margin-right:10px;"></span>
-    <a href="#" id="logoutBtn" style="color: #e90000">Logout</a>
-  </div>
-</nav>
+    <div class="nav-right">
+      <span id="userNameDisplay" style="margin-right:10px;"></span>
+      <a href="#" id="logoutBtn" style="color: #e90000">Logout</a>
+    </div>
+  </nav>
 
-<main class="content-wrapper">
-<div class="container">
-<h2>Aplikasi Penilaian Buku Teks Pendamping</h2>
-<div class="perintah">Sebelum Memulai:</div>
-  <div class="petunjuk">
-  <ol>
-    <li>Video tidak dapat dilewati tetapi masih dapat dijeda.</li>
-    <li>Gunakan tombol jeda untuk mencatat bagian yang perlu dicatat.</li>
-    <li>Video dapat diputar kembali dari awal, tetapi tidak dapat diulang dari bagian yang diinginkan.</li>
-    <li>Setelah video selesai, akses ke materi berikutnya akan terbuka. </li>
-    <li>Data akan tetap tersimpan meskipun Bapak/Ibu logout, menutup peramban, dan mematikan laptop/PC.</li>
-  </ol>
-  </div>
+  <main class="content-wrapper">
+    <div class="container">
+      <h2>Aplikasi Penilaian Buku Teks Pendamping</h2>
+      <div class="perintah">Sebelum Memulai:</div>
+      <div class="petunjuk">
+        <ol>
+          <li>Pastikan Bapak/Ibu berada pada waktu luang.</li>
+          <li>Video tidak dapat dilewati tetapi masih dapat dijeda.</li>
+          <li>Gunakan tombol jeda untuk mencatat bagian yang perlu dicatat.</li>
+          <li>Video tidak dapat diulang dari bagian yang diinginkan tetapi dapat diputar kembali dari awal.</li>
+          <li>Apabila keluar di tengah-tengah video, Bapak/Ibu harus mengulang kembali ke detik pertama.</li>
+          <li>Simak videonya sampai detik terakhir dan muncul sebuah notifikasi.</li>
+          <li>Setelah notifikasi muncul, akses ke materi berikutnya akan terbuka.</li>
+          <li>Data akan tersimpan per materi.</li>
+        </ol>
+      </div>
 
-  <!-- Video -->
-  <video id="video8" width="640" controls oncontextmenu="return false" disablePictureInPicture controlsList="nodownload noremoteplayback noplaybackrate">
-    <source src="materi8.mp4" type="video/mp4" />
-    Browser Anda tidak mendukung tag video.
-  </video>
+      <!-- Video -->
+      <div class="perintah">Video Materi (16 menit 36 detik)</div>
+      <video id="video8" width="640" controls oncontextmenu="return false" disablePictureInPicture
+        controlsList="nodownload noremoteplayback noplaybackrate">
+        <source src="materi8.mp4" type="video/mp4" />
+        Browser Anda tidak mendukung tag video.
+      </video>
 
-  <div class="btn-container">
-    <button onclick="window.location.href='materi-7'" class="btnPrev"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" style="margin-right: 5px" class="bi bi-arrow-left-square" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
-</svg>Materi Sebelumnya</button>
-    <button onclick="window.location.href='dashboard.html'" class="btnHome"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" style="margin-right: 5px" class="bi bi-list-check" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3.854 2.146a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 3.293l1.146-1.147a.5.5 0 0 1 .708 0m0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 7.293l1.146-1.147a.5.5 0 0 1 .708 0m0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0"/>
-</svg>Daftar Materi</button>
-    <button onclick="window.location.href='posttest.html'" class="btnNext"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" style="margin-right: 5px" class="bi bi-arrow-right-square" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
-</svg>Materi Berikutnya</button>
-  </div>
-<div class="bantuan">
-    <h4>Butuh bantuan? Silakan kirim pesan Whatsapp ke 0813-9328-1701 (Talitha)</h4>
-  </div>
-  </div><!--END OF MATERI CONTAINER-->
+      <div class="btn-container">
+        <button onclick="window.location.href='materi-7'" class="btnPrev"><svg xmlns="http://www.w3.org/2000/svg"
+            width="25" height="25" fill="currentColor" style="margin-right: 5px" class="bi bi-arrow-left-square"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
+          </svg>Materi Sebelumnya</button>
+        <button onclick="window.location.href='dashboard.html'" class="btnHome"><svg xmlns="http://www.w3.org/2000/svg"
+            width="25" height="25" fill="currentColor" style="margin-right: 5px" class="bi bi-list-check"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3.854 2.146a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 3.293l1.146-1.147a.5.5 0 0 1 .708 0m0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 7.293l1.146-1.147a.5.5 0 0 1 .708 0m0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0" />
+          </svg>Daftar Materi</button>
+        <button onclick="window.location.href='posttest.html'" class="btnNext"><svg xmlns="http://www.w3.org/2000/svg"
+            width="25" height="25" fill="currentColor" style="margin-right: 5px" class="bi bi-arrow-right-square"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z" />
+          </svg>Materi Berikutnya</button>
+      </div>
+      <div class="bantuan">
+        <h4>Butuh bantuan? Silakan kirim pesan Whatsapp ke 0813-9328-1701 (Talitha)</h4>
+      </div>
+    </div><!--END OF MATERI CONTAINER-->
   </main>
 
-   <!-- JavaScript -->
-<script type="module">
+  <!-- JavaScript -->
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
       getAuth,
@@ -108,7 +124,7 @@
         return;
       }
 
-       //Tampilkan username di pojok kanan atas
+      //Tampilkan username di pojok kanan atas
       document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
 
       const isAdmin = adminEmails.includes(user.email);
@@ -168,4 +184,5 @@
     });
   </script>
 </body>
+
 </html>
