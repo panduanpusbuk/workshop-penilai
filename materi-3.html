@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Materi 3 – Kisi-kisi Penyajian Buku beserta Contoh</title>
+  <title>Materi 3 – Judul Materi 3</title>
   <link rel="stylesheet" href="materi.css">
 </head>
 
@@ -14,15 +14,15 @@
       <a href="dashboard.html">Beranda</a>
       <a href="tentang.html">Tentang Laman Ini</a>
     </div>
-
     <div class="nav-right">
+      <span id="userNameDisplay" style="margin-right:10px;"></span>
       <a href="#" id="logoutBtn" style="color: #e90000">Logout</a>
     </div>
   </nav>
 
-  <main class="content-wrapper">
+    <main class="content-wrapper">
     <div class="container">
-      <h2>Kisi-kisi Penyajian Buku beserta Contoh</h2>
+      <h2>Penyajian Pembelajaran Mendalam</h2>
       <div class="perintah">Sebelum Memulai:</div>
       <div class="petunjuk">
         <ol>
@@ -33,11 +33,11 @@
           <li>Data akan tetap tersimpan meskipun Bapak/Ibu logout, menutup peramban, dan mematikan laptop/PC.</li>
         </ol>
       </div>
+
       <!-- Video -->
-      <div class="perintah">Video Materi</div>
       <video id="video3" width="640" controls oncontextmenu="return false" disablePictureInPicture
         controlsList="nodownload noremoteplayback noplaybackrate">
-        <source src="#" type="video/mp4" /><!--- MASUKKAN VIDEO DI SINI -->
+        <source src="materi3.mp4" type="video/mp4" /><!--- MASUKKAN VIDEO DI SINI -->
         Browser Anda tidak mendukung tag video.
       </video>
 
@@ -61,39 +61,14 @@
               d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z" />
           </svg>Materi Berikutnya</button>
       </div>
-      <div class="bantuan">
-        <h4>Butuh bantuan? Silakan kirim pesan Whatsapp ke 0888-8888-8888</h4>
-      </div>
-    </div><!--END OF MATERI CONTAINER-->
+    </div>
   </main>
-
-  <!-- JavaScript ANTI-SKIP -->
-  <script>
-    const video3 = document.getElementById('video3');
-
-    // Mencegah user seek/maju-mundur di video3
-    let lastTime = 0;
-    video3.addEventListener('timeupdate', function () {
-      if (Math.abs(video3.currentTime - lastTime) > 0.3) {
-        video3.currentTime = lastTime;
-      } else {
-        lastTime = video3.currentTime;
-      }
-    });
-
-    // ANTI SHORTCUT SKIP 
-    window.addEventListener('keydown', function (e) {
-      if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) {
-        e.preventDefault();
-      }
-    });
-  </script>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    // Konfigurasi Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
       authDomain: "workshop-penilaian.firebaseapp.com",
@@ -104,51 +79,68 @@
       measurementId: "G-TWFS28040R"
     };
 
-    // Inisialisasi Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
+    const adminEmails = ["alfianfaizmi@gmail.com", "faiz.alfian@kemdikbud.go.id"];
+    const video = document.getElementById("video3");
+    const nextBtn = document.getElementById("nextBtn");
 
-    // Cek login & progress materi 2
-    onAuthStateChanged(auth, (user) => {
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = "index.html";
+    });
+
+    onAuthStateChanged(auth, async (user) => {
       if (!user) {
         alert("Silakan login terlebih dahulu.");
         window.location.href = "index.html";
+        return;
+      }
+
+      document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
+
+      const isAdmin = adminEmails.includes(user.email);
+      const userDocRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userDocRef);
+      let progress = {};
+      if (userSnap.exists()) progress = userSnap.data();
+
+      if (!isAdmin && !progress.materi2) {
+        alert("Anda harus menyelesaikan Materi 2 terlebih dahulu.");
+        window.location.href = "materi-2.html";
+        return;
+      }
+
+      if (isAdmin) nextBtn.disabled = false;
+      else nextBtn.disabled = !!progress.materi3;
+
+      if (!isAdmin) {
+        let lastTime = 0;
+        video.addEventListener("timeupdate", function () {
+          if (Math.abs(video.currentTime - lastTime) > 0.3) {
+            video.currentTime = lastTime;
+          } else lastTime = video.currentTime;
+        });
+
+        window.addEventListener("keydown", (e) => {
+          if (["ArrowLeft", "ArrowRight", " ", "k", "j", "l"].includes(e.key)) e.preventDefault();
+        });
+      }
+    });
+
+    video.addEventListener("ended", async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+      const userDocRef = doc(db, "users", user.uid);
+      const snap = await getDoc(userDocRef);
+      if (snap.exists()) {
+        await updateDoc(userDocRef, { materi3: true });
       } else {
-        const materi2Done = localStorage.getItem('materi2_selesai');
-        if (materi2Done !== 'true') {
-          alert("Anda harus menyelesaikan Materi 2 terlebih dahulu.");
-          window.location.href = "dashboard.html";
-        }
+        await setDoc(userDocRef, { materi3: true });
       }
-    });
-
-    // Deteksi video selesai
-    const video = document.getElementById('video3');
-    video.addEventListener('ended', () => {
-      localStorage.setItem('materi3_selesai', 'true');
       alert("Materi 3 selesai! Anda bisa lanjut ke materi 4.");
-
-    });
-  </script>
-  <!-- CEGAH KLIK KANAN -->
-  <script>
-    document.addEventListener('contextmenu', function (e) {
-      e.preventDefault();
-    });
-  </script>
-
-  <!-- CEGAH SHORTCUT VIEW PAGE SOURCE -->
-  <script>
-    document.addEventListener('keydown', function (e) {
-      // Cegah Ctrl+U (View Page Source)
-      if (e.ctrlKey && e.key.toLowerCase() === 'u') {
-        e.preventDefault();
-      }
-
-      // Cegah Ctrl+Shift+I atau F12 (Developer Tools)
-      if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') || e.key === 'F12') {
-        e.preventDefault();
-      }
+      nextBtn.disabled = false;
     });
   </script>
 </body>
