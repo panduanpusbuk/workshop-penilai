@@ -64,7 +64,7 @@
     </div>
   </main>
 
-<script type="module">
+ <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
       getAuth,
@@ -79,6 +79,7 @@
       updateDoc
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+    // Konfigurasi Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgGfC8kzQM",
       authDomain: "workshop-penilaian.firebaseapp.com",
@@ -92,71 +93,86 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const adminEmails = ["alfianfaizmi@gmail.com","faiz.alfian@kemdikbud.go.id"];
-    const video3 = document.getElementById("video3");
-    const nextBtn = document.getElementById("nextBtn");
-    let manualLogout = false;
 
-    // Logout
+    const adminEmails = [
+      "alfianfaizmi@gmail.com",
+      "faiz.alfian@kemdikbud.go.id"
+    ];
+
+    const video2 = document.getElementById('video3');
+
+    // Logout button
     document.getElementById("logoutBtn").addEventListener("click", async () => {
-      manualLogout = true;
       await signOut(auth);
       window.location.href = "index.html";
     });
 
+    // Cek login 
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        if (!manualLogout) alert("Silakan login terlebih dahulu.");
+        alert("Silakan login terlebih dahulu.");
         window.location.href = "index.html";
         return;
       }
 
-      // Tampilkan nama user
-      document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
-
       const isAdmin = adminEmails.includes(user.email);
+
       const userDocRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userDocRef);
 
-      let progress = {};
-      if (userSnap.exists()) progress = userSnap.data();
-
-      // Admin bisa langsung lanjut
-      if (isAdmin) {
-        nextBtn.disabled = false;
-      } else {
-        nextBtn.disabled = !progress.materi1;
+      if (!userSnap.exists()) {
+        // buat dokumen default jika belum ada
+        await setDoc(userDocRef, {
+          materi1_selesai: false,
+          materi2_selesai: false,
+          materi3_selesai: false,
+          materi4_selesai: false,
+          materi5_selesai: false,
+          materi6_selesai: false,
+          materi7_selesai: false,
+          materi8_selesai: false,
+        });
       }
 
-      // Anti-skip peserta
+      const data = (await getDoc(userDocRef)).data();
+
+      //Cek progres materi sebelumnya | PERLU DIUBAH
+      if (!isAdmin) {
+        if (!data.materi2_selesai) {
+          alert("Anda harus menyelesaikan Materi 2 terlebih dahulu.");
+          window.location.href = "dashboard.html";
+          return;
+        }
+      } else {
+        console.log("Admin login:", user.email);
+        video2.controls = true;
+      }
+
+      // Anti-skip untuk peserta non-admin | PERLU DIUBAH
       if (!isAdmin) {
         let lastTime = 0;
-        video1.addEventListener("timeupdate", function () {
+        video3.addEventListener('timeupdate', () => {
           if (Math.abs(video3.currentTime - lastTime) > 0.3) {
             video3.currentTime = lastTime;
-          } else lastTime = video3.currentTime;
+          } else {
+            lastTime = video3.currentTime;
+          }
         });
-
-        window.addEventListener("keydown", (e) => {
-          if (["ArrowLeft", "ArrowRight", " ", "k", "j", "l"].includes(e.key)) e.preventDefault();
+        window.addEventListener('keydown', (e) => {
+          if (['ArrowLeft', 'ArrowRight', ' ', 'k', 'j', 'l'].includes(e.key)) {
+            e.preventDefault();
+          }
         });
       }
-    });
 
-    video3.addEventListener("ended", async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-      const userDocRef = doc(db, "users", user.uid);
-      const snap = await getDoc(userDocRef);
-      if (snap.exists()) {
-        await updateDoc(userDocRef, { materi3: true });
-      } else {
-        await setDoc(userDocRef, { materi3: true });
-      }
-      alert("Materi 3 selesai! Anda bisa lanjut ke materi 4.");
-      nextBtn.disabled = false;
+      // Simpan progres materi 3 ketika video selesai | PERLU DIUBAH
+      video3.addEventListener('ended', async () => {
+        await updateDoc(userDocRef, { materi3_selesai: true });
+        alert("Materi 3 selesai! Anda bisa lanjut ke Materi 4.");
+      });
     });
   </script>
+</body>
 </body>
 
 </html>
