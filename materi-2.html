@@ -163,10 +163,6 @@
       }
 
       // Simpan progres materi 2 ketika video selesai
-      video2.addEventListener('ended', async () => {
-        await updateDoc(userDocRef, { materi2_selesai: true });
-        alert("Materi 2 selesai! Anda bisa lanjut ke Materi 3.");
-      });
     });
   </script>
 </body>

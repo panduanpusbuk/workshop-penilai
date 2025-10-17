@@ -135,19 +135,10 @@
       }
     });
 
-    video1.addEventListener("ended", async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-      const userDocRef = doc(db, "users", user.uid);
-      const snap = await getDoc(userDocRef);
-      if (snap.exists()) {
-        await updateDoc(userDocRef, { materi1: true });
-      } else {
-        await setDoc(userDocRef, { materi1: true });
-      }
-      alert("Materi 1 selesai! Anda bisa lanjut ke materi 2.");
-      nextBtn.disabled = false;
-    });
+    video1.addEventListener('ended', async () => {
+        await updateDoc(userDocRef, { materi1_selesai: true });
+        alert("Materi 1 selesai! Anda bisa lanjut ke Materi 2.");
+      });
   </script>
 </body>
 
