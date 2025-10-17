@@ -3,11 +3,12 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Materi 2 – Judul Materi 2</title>
+  <title>Materi 2 – Materi Berikutnya</title>
   <link rel="stylesheet" href="materi.css">
 </head>
 
 <body>
+  <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-left">
       <h1>Workshop Penilai BTP: Materi 2</h1>
@@ -22,8 +23,7 @@
 
   <main class="content-wrapper">
     <div class="container">
-      <h2>Materi 2 – Judul Materi 2</h2>
-
+      <h2>Materi 2</h2>
       <div class="perintah">Video Materi</div>
       <video id="video2" width="640" controls oncontextmenu="return false" disablePictureInPicture
         controlsList="nodownload noremoteplayback noplaybackrate">
@@ -33,7 +33,7 @@
 
       <div class="btn-container">
         <button onclick="window.location.href='dashboard.html'" class="btnHome">Daftar Materi</button>
-        <button id="nextBtn" onclick="window.location.href='materi-3.html'" class="btnNext" disabled>Materi Berikutnya</button>
+        <button id="nextBtn" class="btnNext">Materi Berikutnya</button>
       </div>
     </div>
   </main>
@@ -41,7 +41,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD0RFRQPHoFtvZ8_DdT8gv2DCgC8kzQM",
@@ -49,14 +49,18 @@
       projectId: "workshop-penilaian",
       storageBucket: "workshop-penilaian.firebasestorage.app",
       messagingSenderId: "913053975087",
-      appId: "1:913053975087:web:c8d89b4f8ea5316bea3cda",
-      measurementId: "G-TWFS28040R"
+      appId: "1:913053975087:web:c8d89b4f8ea5316bea3cda"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const adminEmails = ["alfianfaizmi@gmail.com","faiz.alfian@kemdikbud.go.id"];
+
+    const adminEmails = [
+      "alfianfaizmi@gmail.com",
+      "faiz.alfian@kemdikbud.go.id"
+    ];
+
     const video2 = document.getElementById("video2");
     const nextBtn = document.getElementById("nextBtn");
     let manualLogout = false;
@@ -74,23 +78,26 @@
         return;
       }
 
-      document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
       const isAdmin = adminEmails.includes(user.email);
-      const userDocRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userDocRef);
-      let progress = {};
-      if (userSnap.exists()) progress = userSnap.data();
 
-      // Cek apakah sudah selesai materi1
-      if (!isAdmin && !progress.materi1) {
-        alert("Anda harus menyelesaikan Materi 1 terlebih dahulu.");
-        window.location.href = "materi-1.html";
-        return;
-      }
-
-      // Admin bisa langsung lanjut
+      // Jika admin, unlock tombol
       if (isAdmin) nextBtn.disabled = false;
-      else nextBtn.disabled = !!progress.materi2;
+
+      // Tampilkan nama user
+      document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
+
+      // Cek progres peserta
+      if (!isAdmin) {
+        const userDoc = doc(db, "users", user.uid);
+        const snap = await getDoc(userDoc);
+        const progress = snap.exists() ? snap.data() : {};
+
+        // Materi 2 hanya bisa diakses jika materi 1 sudah selesai
+        if (!progress.materi1) {
+          alert("Anda harus menyelesaikan Materi 1 terlebih dahulu.");
+          window.location.href = "materi-1.html";
+        }
+      }
 
       // Anti-skip peserta
       if (!isAdmin) {
@@ -100,7 +107,6 @@
             video2.currentTime = lastTime;
           } else lastTime = video2.currentTime;
         });
-
         window.addEventListener("keydown", (e) => {
           if (["ArrowLeft", "ArrowRight", " ", "k", "j", "l"].includes(e.key)) e.preventDefault();
         });
@@ -110,17 +116,17 @@
     video2.addEventListener("ended", async () => {
       const user = auth.currentUser;
       if (!user) return;
-      const userDocRef = doc(db, "users", user.uid);
-      const snap = await getDoc(userDocRef);
-      if (snap.exists()) {
-        await updateDoc(userDocRef, { materi2: true });
-      } else {
-        await setDoc(userDocRef, { materi2: true });
-      }
-      alert("Materi 2 selesai! Anda bisa lanjut ke materi 3.");
+
+      const userDoc = doc(db, "users", user.uid);
+      await setDoc(userDoc, { materi2: true }, { merge: true });
+
+      alert("Materi 2 selesai! Anda bisa lanjut ke Materi 3.");
       nextBtn.disabled = false;
+    });
+
+    nextBtn.addEventListener("click", () => {
+      window.location.href = "materi-3.html";
     });
   </script>
 </body>
-
 </html>
