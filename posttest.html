@@ -16,26 +16,22 @@
     </div>
 
     <div class="nav-right">
+      <span id="userNameDisplay" style="margin-right:10px;"></span>
       <a href="#" id="logoutBtn" style="color: #e90000">Logout</a>
     </div>
   </nav>
 
   <main class="content-wrapper">
     <div class="container">
-      <h2>Post Test Materi Lokakarya Penilai Buku Teks Pendamping</h2>
-      <div class="perintah">Sebelum Memulai:</div>
+     <!-- QUIZ -->
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeQwTTT189Rd1-ZN4cwXtVsSK0kx4JE623e7rmZAWeywzdt-Q/viewform?embedded=true" width="640" height="13050" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+      <div class="perintah">Setelah Selesai:</div>
       <div class="petunjuk">
         <ol>
-          <li>Video tidak dapat dilewati tetapi masih dapat dijeda.</li>
-          <li>Gunakan tombol jeda untuk mencatat bagian yang perlu dicatat.</li>
-          <li>Video dapat diputar kembali dari awal, tetapi tidak dapat diulang dari bagian yang diinginkan.</li>
-          <li>Setelah video selesai, akses ke materi berikutnya akan terbuka. </li>
-          <li>Data akan tetap tersimpan meskipun Bapak/Ibu logout, menutup peramban, dan mematikan laptop/PC.</li>
+          <li>Tekan tombol kirim/submit yang berada di bawah soal terakhir.</li>
+          <li>Dipersilakan meninggalkan laman ini.</li>
         </ol>
       </div>
-
-      <!-- QUIZ -->
-      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeQwTTT189Rd1-ZN4cwXtVsSK0kx4JE623e7rmZAWeywzdt-Q/viewform?embedded=true" width="640" height="11222" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
 
       <div class="btn-container">
         <button onclick="window.location.href='materi-4'" class="btnPrev"><svg xmlns="http://www.w3.org/2000/svg"
@@ -109,8 +105,10 @@
         return;
       }
 
-      const isAdmin = adminEmails.includes(user.email);
+       //Tampilkan username di pojok kanan atas
+      document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
 
+      const isAdmin = adminEmails.includes(user.email);
       const userDocRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userDocRef);
 
