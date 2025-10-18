@@ -113,7 +113,7 @@
       // Tandai user online
       set(userRef, {
         email: user.email,
-        lastActive: serverTimestamp()
+        lastActive: Date.now()
       });
 
       // Kalau logout, berkurang
