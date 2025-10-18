@@ -110,7 +110,7 @@
       const presenceRef = ref(db, "presence");
       onValue(presenceRef, (snapshot) => {
         const usersOnline = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
-        onlineDisplay.textContent = `🟢${usersOnline} sedang mengerjakan`;
+        onlineDisplay.textContent = `🟢 ${usersOnline} Online`;
       });
     });
 
