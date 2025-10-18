@@ -9,7 +9,9 @@
 
 <body>
   <div id="selimut">
-    <h3 style="max-width: 640px; text-align: center;">Mohon maaf, post test baru dapat dilakukan pada Minggu, 19 Oktober 2025. Hubungi narahubung terkait untuk mengetahui informasi lebih lanjut. Klik <a href="dashboard.html">di sini</a> untuk kembali.</h3>
+    <h3 style="max-width: 640px; text-align: center;">Mohon maaf, post test baru dapat dilakukan pada Minggu, 19 Oktober
+      2025. Hubungi narahubung terkait untuk mengetahui informasi lebih lanjut. Klik <a href="dashboard.html">di
+        sini</a> untuk kembali.</h3>
   </div>
   <nav class="navbar">
     <div class="nav-left">
@@ -26,8 +28,10 @@
 
   <main class="content-wrapper">
     <div class="container">
-     <!-- QUIZ -->
-      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeQwTTT189Rd1-ZN4cwXtVsSK0kx4JE623e7rmZAWeywzdt-Q/viewform?embedded=true" width="640" height="13200" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+      <!-- QUIZ -->
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSeQwTTT189Rd1-ZN4cwXtVsSK0kx4JE623e7rmZAWeywzdt-Q/viewform?embedded=true"
+        width="640" height="13200" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
       <div class="perintah">Setelah Selesai:</div>
       <div class="petunjuk">
         <ol>
@@ -57,7 +61,7 @@
   </main>
 
   <!-- JavaScript -->
-    <script type="module">
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
       getAuth,
@@ -71,6 +75,13 @@
       setDoc,
       updateDoc
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import {
+      getDatabase,
+      ref,
+      set,
+      onDisconnect,
+      onValue
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
     // Konfigurasi Firebase
     const firebaseConfig = {
@@ -84,9 +95,38 @@
       databaseURL: "https://workshop-penilaian-default-rtdb.asia-southeast1.firebasedatabase.app/"
     };
 
+    // Inisialisasi Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+    const realtimeDB = getDatabase(app);
+
+    // Menampilkan jumlah user online
+    const onlineDisplay = document.getElementById("onlineCounter");
+    onlineDisplay.textContent = "Sedang memuat ...";
+
+    // Ketika user login
+    onAuthStateChanged(auth, (user) => {
+      if (!user) return;
+
+      const userRef = ref(realtimeDB, `presence/${user.uid}`);
+
+      // Tandai user online
+      set(userRef, {
+        email: user.email,
+        lastActive: Date.now()
+      });
+
+      // Kalau logout, berkurang
+      onDisconnect(userRef).remove();
+
+      // Pantau jumlah user online
+      const presenceRef = ref(realtimeDB, "presence");
+      onValue(presenceRef, (snapshot) => {
+        const usersOnline = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
+        onlineDisplay.textContent = `${usersOnline} Online`;
+      });
+    });
 
     const adminEmails = [
       "alfianfaizmi@gmail.com",
@@ -124,7 +164,7 @@
         return;
       }
 
-       //Tampilkan username di pojok kanan atas
+      //Tampilkan username di pojok kanan atas
       document.getElementById("userNameDisplay").textContent = user.displayName || user.email;
 
       const isAdmin = adminEmails.includes(user.email);

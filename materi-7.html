@@ -88,6 +88,13 @@
       setDoc,
       updateDoc
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import {
+      getDatabase,
+      ref,
+      set,
+      onDisconnect,
+      onValue
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
     // Konfigurasi Firebase
     const firebaseConfig = {
@@ -101,9 +108,38 @@
       databaseURL: "https://workshop-penilaian-default-rtdb.asia-southeast1.firebasedatabase.app/"
     };
 
+    // Inisialisasi Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+    const realtimeDB = getDatabase(app);
+
+    // Menampilkan jumlah user online
+    const onlineDisplay = document.getElementById("onlineCounter");
+    onlineDisplay.textContent = "Sedang memuat ...";
+
+    // Ketika user login
+    onAuthStateChanged(auth, (user) => {
+      if (!user) return;
+
+      const userRef = ref(realtimeDB, `presence/${user.uid}`);
+
+      // Tandai user online
+      set(userRef, {
+        email: user.email,
+        lastActive: Date.now()
+      });
+
+      // Kalau logout, berkurang
+      onDisconnect(userRef).remove();
+
+      // Pantau jumlah user online
+      const presenceRef = ref(realtimeDB, "presence");
+      onValue(presenceRef, (snapshot) => {
+        const usersOnline = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
+        onlineDisplay.textContent = `${usersOnline} Online`;
+      });
+    });
 
     const adminEmails = [
       "alfianfaizmi@gmail.com",
@@ -202,26 +238,26 @@
   </script>
 
   <!-- Anti klik kanan -->
-<script>
-  document.addEventListener('contextmenu', function (e) {
-    e.preventDefault();
-  });
-</script>
-
-<!-- Anti Dev Tools -->
- <script>
-  document.addEventListener('keydown', function (e) {
-    // Cegah Ctrl+U (View Page Source)
-    if (e.ctrlKey && e.key.toLowerCase() === 'u') {
+  <script>
+    document.addEventListener('contextmenu', function (e) {
       e.preventDefault();
-    }
+    });
+  </script>
 
-    // Cegah Ctrl+Shift+I atau F12 (Developer Tools)
-    if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') || e.key === 'F12') {
-      e.preventDefault();
-    }
-  });
-</script>
+  <!-- Anti Dev Tools -->
+  <script>
+    document.addEventListener('keydown', function (e) {
+      // Cegah Ctrl+U (View Page Source)
+      if (e.ctrlKey && e.key.toLowerCase() === 'u') {
+        e.preventDefault();
+      }
+
+      // Cegah Ctrl+Shift+I atau F12 (Developer Tools)
+      if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') || e.key === 'F12') {
+        e.preventDefault();
+      }
+    });
+  </script>
 </body>
 
 </html>
