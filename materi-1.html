@@ -108,7 +108,7 @@
     onAuthStateChanged(auth, (user) => {
       if (!user) return;
 
-      const userRef = ref(db, `presence/${user.uid}`);
+      const userRef = ref(realtimeDB, `presence/${user.uid}`);
 
       // Tandai user online
       set(userRef, {
@@ -120,7 +120,7 @@
       onDisconnect(userRef).remove();
 
       // Pantau jumlah user online
-      const presenceRef = ref(db, "presence");
+      const presenceRef = ref(realtimeDB, "presence");
       onValue(presenceRef, (snapshot) => {
         const usersOnline = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
         onlineDisplay.textContent = `${usersOnline} Online`;
