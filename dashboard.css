@@ -213,3 +213,11 @@ main {
     font-size: 0.9rem;
   }
 }
+
+/* Berapa orang online? */
+.online-counter {
+  margin-left: 20px;
+  font-size: 0.9rem;
+  color: #e0e0e0;
+  font-weight: 500;
+}
