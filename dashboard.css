@@ -217,7 +217,10 @@ main {
 /* Berapa orang online? */
 .online-counter {
   margin-left: 20px;
+  margin-right: 20px;
+  border-right: 1px solid #868686;
+  border-left: 1px solid #868686;
   font-size: 0.9rem;
-  color: #2a570f;
+  color: #30700c;
   font-weight: 500;
 }

@@ -22,6 +22,7 @@
 
     <div class="nav-right">
       <span id="userNameDisplay" style="margin-right:10px;"></span>
+      <div id="onlineCounter" class="online-counter"></div>
       <a href="#" id="logoutBtn" style="color: #e90000">Logout</a>
     </div>
   </nav>
@@ -61,7 +62,7 @@
     </footer>
   </div>
   <!-- KHUSUS SCRIPT. HATI-HATI. KHUSUS SCRIPT -->
-  <!-- 🔹 Script Firebase + Loading -->
+  <!-- Script Firebase + Loading -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -86,11 +87,9 @@
     const loading = document.getElementById("loading-screen");
     const db = getDatabase(app);
 
-    // Elemen HTML tempat menampilkan jumlah user online
-    const onlineDisplay = document.createElement("div");
-    onlineDisplay.className = "online-counter";
-    onlineDisplay.textContent = "👥 Sedang memuat ...";
-    document.querySelector(".navbar").appendChild(onlineDisplay);
+    // Menampilkan jumlah user online
+    const onlineDisplay = document.getElementById("onlineCounter");
+    onlineDisplay.textContent = "🟢 Sedang memuat ...";
 
     // Ketika user login
     onAuthStateChanged(auth, (user) => {
@@ -104,14 +103,14 @@
         lastActive: serverTimestamp()
       });
 
-      // Jika user keluar atau koneksi terputus, hapus dari daftar online
+      // Kalau logout, berkurang
       onDisconnect(userRef).remove();
 
       // Pantau jumlah user online
       const presenceRef = ref(db, "presence");
       onValue(presenceRef, (snapshot) => {
         const usersOnline = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
-        onlineDisplay.textContent = `👥 ${usersOnline} sedang mengerjakan`;
+        onlineDisplay.textContent = `🟢${usersOnline} sedang mengerjakan`;
       });
     });
 
