@@ -192,7 +192,7 @@
       }
 
       // Simpan progres materi 5 ketika video selesai | PERLU DIUBAH
-      video4.addEventListener('ended', async () => {
+      video5.addEventListener('ended', async () => {
         await updateDoc(userDocRef, { materi5_selesai: true });
         alert("Materi 5 selesai! Anda bisa lanjut ke Materi 6.");
       });
